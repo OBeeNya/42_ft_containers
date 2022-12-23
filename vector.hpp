@@ -12,10 +12,10 @@ namespace ft {
 		public:
 			typedef T														value_type;
 			typedef Allocator												allocator_type;
-			typedef value_type&												reference;
-			typedef const value_type&										const_reference;
-			typedef value_type*												pointer;
-			typedef const value_type*										const_pointer;
+			typedef typename allocator_type::reference						reference;
+			typedef typename allocator_type::const_reference				const_reference;
+			typedef typename allocator_tyoe::pointer						pointer;
+			typedef typename allocator_type::const_pointer					const_pointer;
 			typedef typename ft::random_access_iterator<value_type>			iterator;
 			typedef typename ft::random_access_iterator<const value_type>	const_iterator;
 
