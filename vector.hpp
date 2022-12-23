@@ -1,6 +1,7 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
+# include "ft_containers.hpp"
 # include "random_access_iterator.hpp"
 
 namespace ft {
@@ -9,13 +10,14 @@ namespace ft {
 	class	vector {
 
 		public:
-			typedef T					value_type;
-			typedef Allocator			allocator_type;
-			typedef value_type&			reference;
-			typedef const value_type&	const_reference;
-			typedef value_type*			pointer;
-			typedef const value_type*	const_pointer;
-			typedef 
+			typedef T														value_type;
+			typedef Allocator												allocator_type;
+			typedef value_type&												reference;
+			typedef const value_type&										const_reference;
+			typedef value_type*												pointer;
+			typedef const value_type*										const_pointer;
+			typedef typename ft::random_access_iterator<value_type>			iterator;
+			typedef typename ft::random_access_iterator<const value_type>	const_iterator;
 
 	};
 
