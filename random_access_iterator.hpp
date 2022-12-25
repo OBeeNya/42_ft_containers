@@ -23,7 +23,7 @@ namespace	ft {
 			/*** CONSTRUCTOR / DESTRUCTOR ***/
 
 			random_access_iterator(): _pointer() {}
-			random_access_iterator(const random_access_iterator &src): _pointer(src.getPointer()) {}
+			random_access_iterator(const random_access_iterator &src): _pointer(src.base()) {}
 			~random_access_iterator() {}
 
 			/*** OPERATOR OVERLOAD ***/
@@ -31,26 +31,6 @@ namespace	ft {
 			random_access_iterator	&operator=(const random_access_iterator &rhs) {
 				if (this != &rhs) _pointer = rhs._pointer;
 				return (*this);
-			}
-
-			template <class I1>
-			bool	operator==(const random_access_iterator<I1> lhs, const random_access_iterator<I1> rhs) {
-				return (lhs.getPointer() == rhs.getPointer());
-			}
-
-			template <class I1, class I2>
-			bool	operator==(const random_access_iterator<I1> lhs, const random_access_iterator<I2> rhs) {
-				return (lhs.getPointer() == rhs.getPointer());
-			}
-
-			template <class I1>
-			bool	operator!=(const random_access_iterator<I1> lhs, const random_access_iterator<I2> rhs) {
-				return !(lhs.getPointer() == rhs.getPointer());
-			}
-
-			template <class I1, class I2>
-			bool	operator!=(const random_access_iterator<I1> lhs, const random_access_iterator<I2>rhs) {
-				return !(lhs.getPointer() == rhs.getPointer());
 			}
 
 			reference				operator*() const {return (*_pointer);}
@@ -79,65 +59,6 @@ namespace	ft {
 				return (r);
 			}
 
-			random_access_iterator	operator+(difference_type d) const {
-				random_access_iterator	r(*this);
-				r += d;
-				return (r);
-			}
-
-			template <class I1>
-			random_access_iterator<I1>	operator+(typename random_access_iterator<I1>::difference_type d, random_access_iterator<I1> rhs) {
-				rhs += d;
-				return (r);
-			}
-
-			random_access_iterator	operator-(difference_type d) const { return (*this + (-d)); }
-
-			template <class I1, class I2>
-			typename random_access_iterator<I1>::difference_type	operator-(const random_access_iterator<I1> &lhs, const random_access_iterator<I2> &rhs) {
-				return (lhs.getPointer() - rhs.getPointer());
-			}
-
-			template <class I1>
-			bool	operator<(const random_access_iterator<I1> &lhs, const random_access_iterator<I1> &rhs) {
-				return (lhs.getPointer() < rhs.getPointer());
-			}
-
-			template <class I1, class I2>
-			bool	operator<(const random_access_iterator<I1> &lhs, const random_access_iterator<I2> &rhs) {
-				return (lhs.getPointer() < rhs.getPointer());
-			}
-
-			template <class I1>
-			bool	operator>(const random_access_iterator<I1> &lhs, const random_access_iterator<I1> &rhs) {
-				return (rhs < lhs);
-			}
-
-			template <class I1, class I2>
-			bool	operator>(const random_access_iterator<I1> &lhs, const random_access_iterator<I2> &rhs) {
-				return (rhs < lhs);
-			}
-
-			template <class I1>
-			bool	operator<=(const random_access_iterator<I1> &lhs, const random_access_iterator<I1> &rhs) {
-				return !(rhs < lhs);
-			}
-
-			template <class I1, class I2>
-			bool	operator<=(const random_access_iterator<I1> &lhs, const random_access_iterator<I2> &rhs) {
-				return !(rhs < lhs);
-			}
-
-			template <class I1>
-			bool	operator>=(const random_access_iterator<I1> &lhs, const random_access_iterator<I1> &rhs) {
-				return !(lhs < rhs);
-			}
-
-			template <class I1, class I2>
-			bool	operator>=(const random_access_iterator<I1> &lhs, const random_access_iterator<I2> &rhs) {
-				return !(lhs < rhs);
-			}
-
 			random_access_iterator	&operator+=(difference_type d) {
 				_pointer += d;
 				return (*this);
@@ -152,7 +73,7 @@ namespace	ft {
 
 			/*** MEMBER FUNCTIONS ***/
 
-			pointer	getPointer() const { return (_pointer); }
+			pointer	base() const { return (_pointer); }
 
 		private:
 
@@ -163,5 +84,84 @@ namespace	ft {
 	};
 
 };
+
+template <class I1>
+bool	operator==(const random_access_iterator<I1> lhs, const random_access_iterator<I1> rhs) {
+	return (lhs.base() == rhs.base());
+}
+
+template <class I1, class I2>
+bool	operator==(const random_access_iterator<I1> lhs, const random_access_iterator<I2> rhs) {
+	return (lhs.base() == rhs.base());
+}
+
+template <class I1>
+bool	operator!=(const random_access_iterator<I1> lhs, const random_access_iterator<I1> rhs) {
+	return !(lhs.base() == rhs.base());
+}
+
+template <class I1, class I2>
+bool	operator!=(const random_access_iterator<I1> lhs, const random_access_iterator<I2>rhs) {
+	return !(lhs.base() == rhs.base());
+}
+
+random_access_iterator	operator+(difference_type d) const {
+	random_access_iterator	r(*this);
+	r += d;
+	return (r);
+}
+
+template <class I1>
+random_access_iterator<I1>	operator+(typename random_access_iterator<I1>::difference_type d, random_access_iterator<I1> rhs) {
+	rhs += d;
+	return (r);
+}
+
+random_access_iterator	operator-(difference_type d) const { return (*this + (-d)); }
+
+template <class I1, class I2>
+typename random_access_iterator<I1>::difference_type	operator-(const random_access_iterator<I1> &lhs, const random_access_iterator<I2> &rhs) {
+	return (lhs.base() - rhs.base());
+}
+
+template <class I1>
+bool	operator<(const random_access_iterator<I1> &lhs, const random_access_iterator<I1> &rhs) {
+	return (lhs.base() < rhs.base());
+}
+
+template <class I1, class I2>
+bool	operator<(const random_access_iterator<I1> &lhs, const random_access_iterator<I2> &rhs) {
+	return (lhs.base() < rhs.base());
+}
+
+template <class I1>
+bool	operator>(const random_access_iterator<I1> &lhs, const random_access_iterator<I1> &rhs) {
+	return (rhs < lhs);
+}
+
+template <class I1, class I2>
+bool	operator>(const random_access_iterator<I1> &lhs, const random_access_iterator<I2> &rhs) {
+	return (rhs < lhs);
+}
+
+template <class I1>
+bool	operator<=(const random_access_iterator<I1> &lhs, const random_access_iterator<I1> &rhs) {
+	return !(rhs < lhs);
+}
+
+template <class I1, class I2>
+bool	operator<=(const random_access_iterator<I1> &lhs, const random_access_iterator<I2> &rhs) {
+	return !(rhs < lhs);
+}
+
+template <class I1>
+bool	operator>=(const random_access_iterator<I1> &lhs, const random_access_iterator<I1> &rhs) {
+	return !(lhs < rhs);
+}
+
+template <class I1, class I2>
+bool	operator>=(const random_access_iterator<I1> &lhs, const random_access_iterator<I2> &rhs) {
+	return !(lhs < rhs);
+}
 
 #endif
