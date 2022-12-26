@@ -14,6 +14,7 @@ namespace	ft {
 		
 			/*** ATTRIBUTES ***/
 
+			typedef T																				iterator_type;
 			typedef typename ft::iterator<std::random_access_iterator_tag, T>::value_type			value_type;
 			typedef typename ft::iterator<std::random_access_iterator_tag, T>::difference_type		difference_type;
 			typedef typename ft::iterator<std::random_access_iterator_tag, T>::pointer				pointer;
@@ -22,23 +23,24 @@ namespace	ft {
 
 			/*** CONSTRUCTOR / DESTRUCTOR ***/
 
-			random_access_iterator(): _pointer() {}
-			random_access_iterator(const random_access_iterator &src): _pointer(src.base()) {}
+			random_access_iterator(): _i() {}
+			random_access_iterator(const random_access_iterator &src): \
+				_i(src.base()) {}
 			~random_access_iterator() {}
 
 			/*** OPERATOR OVERLOAD ***/
 
 			random_access_iterator	&operator=(const random_access_iterator &rhs) {
-				if (this != &rhs) _pointer = rhs._pointer;
+				if (this != &rhs) _i = rhs._i;
 				return (*this);
 			}
 
-			reference				operator*() const {return (*_pointer);}
+			reference				operator*() const {return (*_i);}
 
 			pointer					operator->() const { return &(operator*()); }
 
 			random_access_iterator	&operator++() {
-				++_pointer;
+				++_i;
 				return (*this);
 			}
 
@@ -49,7 +51,7 @@ namespace	ft {
 			}
 
 			random_access_iterator	&operator--() {
-				--_pointer;
+				--_i;
 				return (*this);
 			}
 
@@ -60,7 +62,7 @@ namespace	ft {
 			}
 
 			random_access_iterator	&operator+=(difference_type d) {
-				_pointer += d;
+				_i += d;
 				return (*this);
 			}
 
@@ -69,17 +71,17 @@ namespace	ft {
 				return (*this);
 			}
 
-			reference	operator[](difference_type d) const { return (_pointer[d]); }
+			reference	operator[](difference_type d) const { return (_i[d]); }
 
 			/*** MEMBER FUNCTIONS ***/
 
-			pointer	base() const { return (_pointer); }
+			iterator_type	base() const { return (_i); }
 
 		private:
 
 			/*** ATTRIBUTES ***/
 
-			pointer	_pointer;
+			iterator_type	_i;
 
 	};
 
