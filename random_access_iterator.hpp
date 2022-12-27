@@ -24,8 +24,7 @@ namespace	ft {
 			/*** CONSTRUCTOR / DESTRUCTOR ***/
 
 			random_access_iterator(): _i() {}
-			random_access_iterator(const random_access_iterator &src): \
-				_i(src.base()) {}
+			random_access_iterator(const random_access_iterator &src): _i(src.base()) {}
 			~random_access_iterator() {}
 
 			/*** OPERATOR OVERLOAD ***/
