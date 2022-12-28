@@ -40,7 +40,7 @@ namespace	ft {
 				return (*--tmp);
 			}
 
-			reverse_iterator	operator+(difference_type d) const { return (reverse_iterator(current - n)); }
+			reverse_iterator	operator+(difference_type d) const { return (reverse_iterator(current - d)); }
 
 			reverse_iterator	&operator++() {
 				--current;
@@ -99,7 +99,7 @@ namespace	ft {
 	};
 
 	template <class Iterator>
-	reverse_iterator<Iterator>	operator+(typename reverse_iterator<Iterator>::difference_type d, const reverse_iterator<Iterator> &r) { return (reverse_iterator<Iterator>(x.base() - d)); }
+	reverse_iterator<Iterator>	operator+(typename reverse_iterator<Iterator>::difference_type d, const reverse_iterator<Iterator> &r) { return (reverse_iterator<Iterator>(r.base() - d)); }
 
 	template <class I1, class I2>
 	typename reverse_iterator<I1>::difference_type	operator-(const reverse_iterator<I1> &lhs, const reverse_iterator<I2> &rhs) { return (rhs.base() - lhs.base()); }
