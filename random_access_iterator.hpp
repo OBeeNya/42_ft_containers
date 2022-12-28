@@ -12,7 +12,7 @@ namespace	ft {
 
 		public:
 		
-			/*** ATTRIBUTES ***/
+			/*** MEMBER TYPES ***/
 
 			typedef T																			iterator_type;
 			typedef typename iterator<std::random_access_iterator_tag, T>::value_type			value_type;
@@ -21,13 +21,13 @@ namespace	ft {
 			typedef typename iterator<std::random_access_iterator_tag, T>::reference			reference;
 			typedef typename iterator<std::random_access_iterator_tag, T>::iterator_category	iterator_category;
 
-			/*** CONSTRUCTOR / DESTRUCTOR ***/
+			/*** MEMBER FUNCTIONS ***/
 
 			random_access_iterator(): _i() {}
-			random_access_iterator(const random_access_iterator &src): _i(src.base()) {}
-			~random_access_iterator() {}
 
-			/*** OPERATOR OVERLOAD ***/
+			random_access_iterator(const random_access_iterator &src): _i(src.base()) {}
+			
+			~random_access_iterator() {}
 
 			random_access_iterator	&operator=(const random_access_iterator &rhs) {
 				if (this != &rhs) _i = rhs._i;
@@ -80,8 +80,6 @@ namespace	ft {
 
 			reference	operator[](difference_type d) const { return (_i[d]); }
 
-			/*** MEMBER FUNCTIONS ***/
-
 			iterator_type	base() const { return (_i); }
 
 		private:
@@ -91,6 +89,8 @@ namespace	ft {
 			iterator_type	_i;
 
 	};
+
+	/*** NON-MEMBER FUNCTIONS ***/
 
 	template <class I1>
 	bool	operator==(const random_access_iterator<I1> lhs, const random_access_iterator<I1> rhs) {

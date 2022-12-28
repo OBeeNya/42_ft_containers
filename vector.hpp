@@ -42,7 +42,7 @@ namespace ft {
 		
 		private:
 
-			/*** MEMBER TYPES ***/
+			/*** ATTRIBUTES ***/
 
 			allocator_type	_alloc;
 			size_type		_count;
