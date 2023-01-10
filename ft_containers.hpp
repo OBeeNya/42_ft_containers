@@ -4,5 +4,8 @@
 # include <memory>
 # include <cstddef>
 # include <iostream>
+# include <stdexcept>
+
+# define VECTOR_CAPACITY_ADJUSTMENT 2
 
 #endif

@@ -7,11 +7,13 @@ namespace	ft {
 
 	template <class T, T v>
 	struct integral_constant {
-		typedef T						value_type;
-		typedef integral_constant<T, v>	type;
-		static const T					value = v;
+		typedef T									value_type;
+		typedef integral_constant<value_type, v>	type;
+		static const value_type						value = v;
 
-		const operator	T() { return (v); }
+		operator	value_type() {
+			return (v);
+		}
 	};
 
 	typedef integral_constant<bool, true>	int_type;
