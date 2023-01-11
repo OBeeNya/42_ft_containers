@@ -6,10 +6,12 @@
 # include "reverse_iterator.hpp"
 # include "enable_if.hpp"
 # include "is_integral.hpp"
+# include "equal.hpp"
+# include "lexicographical_compare.hpp"
 
 namespace ft {
 
-	template <class T, class Allocator = std::allocator<T>>
+	template < class T, class Allocator = std::allocator<T> >
 	class	vector {
 
 		public:
@@ -35,15 +37,15 @@ namespace ft {
 				_alloc(NULL),
 				_count(0),
 				_capacity(0),
-				_first(nullptr),
-				_last(nullptr) {}
+				_first(NULL),
+				_last(NULL) {}
 
 			explicit vector(const Allocator &alloc):
 				_alloc(alloc),
 				_count(0),
 				_capacity(0),
-				_first(nullptr),
-				_last(nullptr) {
+				_first(NULL),
+				_last(NULL) {
 					_first = _alloc.allocate(1);
 					_last = _first;
 				}
@@ -52,8 +54,8 @@ namespace ft {
 				_alloc(alloc),
 				_count(count),
 				_capacity(count),
-				_first(nullptr),
-				_last(nullptr) {
+				_first(NULL),
+				_last(NULL) {
 					_first = _alloc.allocate(_capacity);
 					_last = _first;
 					for (size_type i = 0; i < _capacity; i++) {
@@ -63,12 +65,12 @@ namespace ft {
 				}
 
 			template <class InputIt>
-			vector(InputIt first, InputIt last, const Allocator &alloc = Allocator(), typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = nullptr):
+			vector(InputIt first, InputIt last, const Allocator &alloc = Allocator(), typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = NULL):
 				_alloc(alloc),
 				_count(std::distance(first, last)),
 				_capacity(std::distance(first, last)),
-				_first(nullptr),
-				_last(nullptr) {
+				_first(NULL),
+				_last(NULL) {
 					_first = _alloc.allocate(_capacity);
 					_last = _first;
 					for (size_type i = 0; i < _capacity; i++) {
@@ -82,8 +84,8 @@ namespace ft {
 				_alloc(other._alloc),
 				_count(other._count),
 				_capacity(other._capacity),
-				_first(nullptr),
-				_last(nullptr) {
+				_first(NULL),
+				_last(NULL) {
 					_first = _alloc.allocate(_capacity);
 					_last = _first;
 					for (pointer i = other._first; i < other._last; ++i, ++_last)
@@ -92,7 +94,7 @@ namespace ft {
 
 			~vector() {
 				clear();
-				if (_first != nullptr || _first == _last)
+				if (_first != NULL || _first == _last)
 					_alloc.deallocate(_first, _capacity);
 			}
 
@@ -122,7 +124,7 @@ namespace ft {
 			}
 
 			template <class InputIt>
-			void	assign(InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = nullptr) {
+			void	assign(InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = NULL) {
 				reserve(std::distance(first, last));
 				size_type	i;
 				for (i = 0; i < _count; i++)
@@ -265,7 +267,17 @@ namespace ft {
 
 			iterator	insert(const_iterator pos, const T &value) {
 				difference_type	first_pos = std::distance(begin(), pos);
-				insert(pos, 1, value);
+				if (!_capacity)
+					reserve(1);
+				else if (_count >= _capacity)
+					reserve(_capacity * VECTOR_CAPACITY_ADJUSTMENT);
+				size_t	i = 1;
+				for (difference_type j = _count; j > first_pos; i++, j--) {
+					_alloc.construct(begin() + j, *(end() - i));
+					_alloc.destroy(end() - i);
+				}
+				_alloc.construct(begin() + first_pos, value);
+				_count++;
 				return (iterator(begin() + first_pos));
 			}
 
@@ -273,59 +285,55 @@ namespace ft {
 				if (!count)
 					return (pos);
 				difference_type	first_pos = std::distance(begin(), pos);
-				difference_type	pos_last = std::distance(pos, end());
-				difference_type	first_last = size();
-				if (count + _count >= _capacity * VECTOR_CAPACITY_ADJUSTMENT)
-					reserve(count + _count);
-				else if (count + _count > _capacity)
+				if (_count + count >= _capacity * VECTOR_CAPACITY_ADJUSTMENT)
+					reserve(_count + count);
+				else if (_count + count > _capacity)
 					reserve(_count * VECTOR_CAPACITY_ADJUSTMENT);
-				for (difference_type i = 1; i <= pos_last; i++) {
-					_alloc.construct(_first + first_last + count - i, *(_first + first_last - i));
-					_alloc.destroy(_first, first_last - i);
+				size_t	i = 1;
+				for (difference_type j = 0; j >= first_pos; i++, j--) {
+					_alloc.construct(begin() + j + count, *(end() - i));
+					_alloc.destroy(end() - i);
 				}
-				for (size_type i = 0; i < count; i++)
-					_alloc.construct(_first + first_pos + i, value);
-				_last = _first + _count + count;
-				_count += count;
+				for (size_type j = 0; j < count; first_pos++, j++)
+					_alloc.construct(begin() + first_pos, value);
 				return (iterator(begin() + first_pos));
 			}
 
 			template <class InputIt>
-			iterator	insert(const_iterator pos, InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = nullptr) {
+			iterator	insert(const_iterator pos, InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = NULL) {
 				if (first == last)
 					return (pos);
 				difference_type	first_pos = std::distance(begin(), pos);
-				difference_type	pos_last = std::distance(pos, end());
-				difference_type	first_last = size();
-				size_type	count = static_cast<size_type>(std::distance(first, last));
-				if (count + _count >= _capacity * VECTOR_CAPACITY_ADJUSTMENT)
-					reserve(count + _count);
-				else if (count + _count > _capacity)
-					reserve(_count * VECTOR_CAPACITY_ADJUSTMENT);
-				for (difference_type i = 1; i <= pos_last; i++) {
-					_alloc.construct(_first + first_last + count - i, *(_first + first_last - i));
-					_alloc.destroy(_first + first_last - i);
+				difference_type	ret = first_pos;
+				difference_type	count = std::distance(first, last);
+				if (_count + count > _capacity * VECTOR_CAPACITY_ADJUSTMENT)
+					_capacity = _count + count;
+				else if (_count + count >= _capacity)
+					_capacity = _count * VECTOR_CAPACITY_ADJUSTMENT;
+				pointer	first_tmp = _alloc.allocate(_capacity);
+				difference_type	i = 0;
+				while (i < first_pos) {
+					_alloc.construct(first_tmp + i, *(_first + i));
+					i++;
 				}
-				for (size_type i = 0; i < count; i++) {
-					_alloc.construct(_first + first_last + i, *first);
+				while (first != last) {
+					_alloc.construct(first_tmp + i, *first);
 					++first;
+					i++;
 				}
-				_last = _first + _count + count;
+				while ((size_type)first_pos < _count) {
+					_alloc.construct(first_tmp + i, *(_first + first_pos));
+					i++;
+					first_pos++;
+				}
+				if (_capacity) {
+					for (size_type i = 0; i < count; i++)
+						_alloc.destroy(_first + i);
+				}
+				_alloc.deallocate(_first, _capacity);
+				_first = first_tmp;
 				_count += count;
-				return (iterator(begin() + first_pos));
-			}
-
-			iterator	erase(iterator pos) {
-				iterator	ret = pos;
-				while (pos != end() - 1) {
-					_alloc.destroy(pos);
-					_alloc.construct(pos, *(pos + 1));
-					++pos;
-				}
-				_alloc.destroy(pos);
-				_count--;
-				--_last;
-				return (ret);
+				return (iterator(begin() + ret));
 			}
 
 			iterator	erase(iterator first, iterator last) {
@@ -353,11 +361,44 @@ namespace ft {
 				_alloc.destroy(_first + _count);
 			}
 
-			// void	resize(size_type count, T value = T()) {
-			// 	if (count > max_size())
-			// 		throw (std::length_error("vector::resize"));
+			void	resize(size_type count, T value = T()) {
+				if (count > max_size())
+					throw (std::length_error("vector::resize"));
+				if (count < size()) {
+					while (_count > count) {
+						_alloc.destroy(_first + _count - 1);
+						_count--;
+					}
+					_last = _first + _count;
+				}
+				else {
+					if (count > _count * VECTOR_CAPACITY_ADJUSTMENT)
+						reserve(count);
+					else if (count > _capacity)
+						reserve(_count * VECTOR_CAPACITY_ADJUSTMENT);
+					for (size_type i = _count; i < count; i++, ++_last)
+						_alloc.construct(_last, value);
+					_count = count;
+				}
+			}
 
-			// }
+			void	swap(vector &other) {
+				pointer			first_tmp = _first;
+				pointer			last_tmp = _last;
+				size_type		capacity_tmp = _capacity;
+				allocator_type	alloc_tmp = _alloc;
+				size_type		count_tmp = _count;
+				_first = other._first;
+				_last = other._last;
+				_capacity = other._capacity;
+				_alloc = other._alloc;
+				_count = other._count;
+				other._first = first_tmp;
+				other._last = last_tmp;
+				other._capacity = capacity_tmp;
+				other._alloc = alloc_tmp;
+				other._count = count_tmp;
+			}
 
 		private:
 
@@ -374,5 +415,42 @@ namespace ft {
 };
 
 /*** NON-MEMBER FUNCTIONS ***/
+
+template< class T, class Alloc >
+bool	operator==(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs) {
+	if (lhs.size() != rhs.size())
+		return (false);
+	return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+}
+
+template< class T, class Alloc >
+bool	operator!=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs) {
+	return (!(lhs == rhs));
+}
+
+template< class T, class Alloc >
+bool	operator<(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs) {
+	return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+}
+
+template< class T, class Alloc >
+bool	operator<=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs) {
+	return (!(lhs > rhs));
+}
+
+template< class T, class Alloc >
+bool	operator>(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs) {
+	return (ft::lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end()));
+}
+
+template< class T, class Alloc >
+bool	operator>=(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs) {
+	return (!(lhs < rhs));
+}
+
+template< class T, class Alloc >
+void	swap(ft::vector<T, Alloc> &lhs, ft::vector<T, Alloc> &rhs) {
+	lhs.swap(rhs);
+}
 
 #endif
