@@ -26,15 +26,15 @@ namespace ft {
 			typedef const value_type&										const_reference;
 			typedef typename allocator_type::pointer						pointer;
 			typedef typename allocator_type::const_pointer					const_pointer;
-			typedef typename ft::random_access_iterator<value_type>			iterator;
-			typedef typename ft::random_access_iterator<const value_type>	const_iterator;
+			typedef T*														iterator;
+			typedef const T*												const_iterator;
 			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 
 			/*** MEMBER FUNCTIONS ***/
 
 			vector():
-				_alloc(NULL),
+				_alloc(),
 				_count(0),
 				_capacity(0),
 				_first(NULL),
@@ -222,7 +222,7 @@ namespace ft {
 			/*** Capacity ***/
 
 			bool	empty() const {
-				return (size());
+				return (!(size()));
 			}
 
 			size_type	size() const {
@@ -246,7 +246,7 @@ namespace ft {
 					_alloc.construct(_last, *b);
 					_alloc.destroy(b);
 					++_last;
-					+b;
+					++b;
 				}
 				_alloc.deallocate(free, _capacity);
 				_capacity = new_cap;
@@ -352,7 +352,7 @@ namespace ft {
 					else
 						reserve(_capacity * VECTOR_CAPACITY_ADJUSTMENT);
 				}
-				_alloc.construct(++_last, value);
+				_alloc.construct(_last++, value);
 				_count++;
 			}
 
@@ -402,7 +402,7 @@ namespace ft {
 
 		private:
 
-			/*** ATTRIBUTES ***/
+			/*** MEMBER OBJECTS ***/
 
 			allocator_type	_alloc;
 			size_type		_count;

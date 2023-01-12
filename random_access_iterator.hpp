@@ -8,7 +8,7 @@ namespace	ft {
 
 	template <class T>
 	class random_access_iterator:
-		public iterator<std::random_access_iterator_tag, T> {
+		public ft::iterator<std::random_access_iterator_tag, T> {
 
 		public:
 		
@@ -80,13 +80,13 @@ namespace	ft {
 
 			reference	operator[](difference_type d) const { return (_i[d]); }
 
-			iterator_type	base() const { return (_i); }
+			pointer	base() const { return (_i); }
 
 		private:
 
 			/*** ATTRIBUTES ***/
 
-			iterator_type	_i;
+			pointer	_i;
 
 	};
 
