@@ -2,55 +2,9 @@
 # define RBT_HPP
 
 # include "ft_containers.hpp"
+# include "node.hpp"
 
 namespace	ft {
-
-	template< class T >
-	struct	node {
-
-		/*** MEMBER TYPES ***/
-
-		typedef T		value_type;
-		typedef size_t	color_type;
-
-		/*** MEMBER FUNCTIONS ***/
-
-		node():
-			value(),
-			color(BLACK),
-			parent(NULL),
-			left(NULL),
-			right(NULL) {}
-
-		node(const value_type &v, const color_type c = BLACK, node *p = NULL, node *l = NULL, node *r = NULL):
-			value(v),
-			color(c),
-			parent(p),
-			left(l),
-			right(r) {}
-
-		~node() {}
-
-		node	&operator==(node &rhs) {
-			if (&this == rhs)
-				return (*this);
-			value = rhs.value;
-			color = rhs.color,
-			parent = rhs.parent;
-			left = rhs.left;
-			right = rhs.right;
-			return (*this);
-		}
-
-		/*** MEMBER OBJECTS ***/
-
-		value_type	value;
-		color_type	color;
-		node		*parent;
-		node		*left;
-		node		*right;
-
-	};
 
 	template< class T,  class Compare, class node = ft::node<T>, class Allocator = std::allocator<node> >
 	class	rbt {
@@ -76,9 +30,40 @@ namespace	ft {
 				_a(allocator_type()),
 				_size(0) {
 					_end = _a.allocate(1);
-					_a.construct(_end, node(value_type(), RED));
+					_a.construct(_end, node(value_type(), BLACK));
 					_root = _end;
 				}
+
+			~rbt() {
+				if (_root != _end)
+					_destroy_tree(_root);
+				_a.deallocate(_end, 1);
+			}
+
+			bool	empty() const {
+				return (!(size()));
+			}
+
+			size_type	size() const {
+				return (size);
+			}
+
+			size_type	max_size() const {
+
+			}
+
+		private:
+
+			/*** MEMBER FUNCTIONS ***/
+
+			void	_destroy_tree(pointer n) {
+				if (n == _end)
+					return ;
+				_destroy_tree(n->left);
+				_destroy_tree(n->right);
+				_a.destroy(n);
+				_a.deallocate(n, 1);
+			}
 
 	private:
 
