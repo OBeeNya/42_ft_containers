@@ -8,7 +8,7 @@
 
 namespace	ft {
 
-	template< class Key, class T, class Compare = std::less<key>, class Allocator = std::<ft::pair<const Key, T>> >
+	template< class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator< ft::pair<const Key, T> > >
 	class	map {
 
 		public:
@@ -24,8 +24,8 @@ namespace	ft {
 			typedef Allocator										allocator_type;
 			typedef value_type&										reference;
 			typedef const value_type&								const_reference;
-			typedef typename Allocator::pointer						pointer;
-			typedef typename Allocator::const_pointer				const_pointer;
+			typedef typename allocator_type::pointer				pointer;
+			typedef typename allocator_type::const_pointer			const_pointer;
 			typedef T*												iterator;
 			typedef const T*										const_iterator;
 			typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
