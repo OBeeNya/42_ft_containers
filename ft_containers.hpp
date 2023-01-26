@@ -8,5 +8,7 @@
 # include <functional>
 
 # define VECTOR_CAPACITY_ADJUSTMENT 2
+# define BLACK 0
+# define RED 1
 
 #endif
