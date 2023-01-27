@@ -67,14 +67,14 @@ namespace	ft {
 
 			/*** MEMBER FUNCTIONS ***/
 
-			map() {}
+			// map() {}
 
-			explicit map(const key_compare &comp, const allocator_type &alloc = Allocator()) {}
+			// explicit map(const key_compare &comp, const allocator_type &alloc = Allocator()) {}
 
-			template<class InputIt>
-			map(InputIt first, InputIt last, const key_compare &comp = Compare(), const allocator_type &alloc = Allocator()) {}
+			// template<class InputIt>
+			// map(InputIt first, InputIt last, const key_compare &comp = Compare(), const allocator_type &alloc = Allocator()) {}
 
-			map(const map &other) {}
+			// map(const map &other) {}
 
 		private:
 

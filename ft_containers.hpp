@@ -6,6 +6,7 @@
 # include <iostream>
 # include <stdexcept>
 # include <functional>
+# include <limits>
 
 # define VECTOR_CAPACITY_ADJUSTMENT 2
 # define BLACK 0

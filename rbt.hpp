@@ -30,15 +30,31 @@ namespace	ft {
 				_a(allocator_type()),
 				_size(0) {
 					_end = _a.allocate(1);
-					_a.construct(_end, node(value_type(), BLACK));
+					_a.construct(_end, node_type(value_type(), BLACK));
 					_root = _end;
 				}
 
 			~rbt() {
 				if (_root != _end)
-					_destroy_tree(_root);
+					clear(_root);
 				_a.deallocate(_end, 1);
 			}
+
+			/*** Iterators ***/
+
+			pointer	get_begin() const {
+				return (_get_min(_root));
+			}
+
+			pointer	get_end() const {
+				return (_end);
+			}
+
+			pointer	get_root() const {
+				return (_root);
+			}
+
+			/*** Capacity ***/
 
 			bool	empty() const {
 				return (!(size()));
@@ -49,29 +65,46 @@ namespace	ft {
 			}
 
 			size_type	max_size() const {
+				return (std::numeric_limits<difference_type>::max() / sizeof(node_type::value_type));
+			}
+
+			/*** Modifiers ***/
+
+			void	clear() {
+				_clear(_root);
+				size = 0;
+				_root = _end;
+			}
+
+			pointer	insert(const value_type &val) {
+				pointer	p = _a.allocate(1);
+				_a.construct(p, node(val, BLACK, NULL, _end, _end));
+				pointer	parent = _root;
 
 			}
 
 		private:
 
-			/*** MEMBER FUNCTIONS ***/
-
-			void	_destroy_tree(pointer n) {
-				if (n == _end)
-					return ;
-				_destroy_tree(n->left);
-				_destroy_tree(n->right);
-				_a.destroy(n);
-				_a.deallocate(n, 1);
-			}
-
-	private:
+			/*** MEMBER OBJECTS ***/
 
 			pointer			_root;
 			pointer			_end;
 			value_compare	_cmp;
 			allocator_type	_a;
 			size_type		_size;
+
+			/*** MEMBER FUNCTIONS ***/
+
+			/*** Modifiers ***/
+
+			void	_clear(pointer p) {
+				if (p == _end)
+					return ;
+				_clear(p->left);
+				_clear(p->right);
+				_a.destroy(p);
+				_a.deallocate(p, 1);
+			}
 
 	};
 

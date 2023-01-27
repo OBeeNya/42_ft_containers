@@ -305,7 +305,7 @@ namespace ft {
 					return (pos);
 				difference_type	first_pos = std::distance(begin(), pos);
 				difference_type	ret = first_pos;
-				difference_type	count = std::distance(first, last);
+				size_type	count = static_cast<size_type>(std::distance(first, last));
 				if (_count + count > _capacity * VECTOR_CAPACITY_ADJUSTMENT)
 					_capacity = _count + count;
 				else if (_count + count >= _capacity)
