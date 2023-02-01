@@ -80,7 +80,39 @@ namespace	ft {
 				pointer	p = _a.allocate(1);
 				_a.construct(p, node(val, BLACK, NULL, _end, _end));
 				pointer	parent = _root;
-
+				if (_root == _end) {
+					_root = p;
+					_root->parent = _end;
+					_size++;
+					return (_root);
+				}
+				while (parent != _end) {
+					if (_cmp(val, parent->value)) {
+						if (parent->left == _end)
+							break ;
+						parent = parent->left;
+					}
+					else if (_cmp(parent->value, val)) {
+						if (parent->right == _end)
+							break ;
+						parent = parent->right;
+					}
+					else {
+						_a.destroy(p);
+						_a.deallocate(p, 1);
+						return (NULL);
+					}
+				}
+				p->parent = parent;
+				if (_cmp(val, parent->value))
+					parent->left = p;
+				else
+					parent->right = p;
+				_size++;
+				if (p->parent->parent == _end)
+					return (p);
+				_insert_fix(p);
+				return (p);
 			}
 
 		private:
@@ -104,6 +136,11 @@ namespace	ft {
 				_clear(p->right);
 				_a.destroy(p);
 				_a.deallocate(p, 1);
+			}
+
+			void	_insert_fix(pointer p) {
+				pointer	uncle;
+
 			}
 
 	};
