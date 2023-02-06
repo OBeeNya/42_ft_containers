@@ -140,7 +140,79 @@ namespace	ft {
 
 			void	_insert_fix(pointer p) {
 				pointer	uncle;
+				while (p->parent->color == RED) {
+					if (p->parent == p->parent->parent->right) {
+						uncle = p->parent->parent->left;
+						if (uncle->color == RED) {
+							uncle->color = BLACK;
+							p->parent->color = BLACK;
+							p->parent->parent->color = RED;
+							p = p->parent->parent;
+						}
+						else {
+							if (p == p->parent->left) {
+								p = p->parent;
+								_right_rotate(p);
+							}
+							p->parent->color = BLACK;
+							p->parent->parent->color = RED;
+							_left_rotate(p->parent->parent);
+						}
+					}
+					else {
+						uncle = p->parent->parent->right;
+						if (uncle->color == RED) {
+							uncle->color = BLACK;
+							p->parent->color = BLACK;
+							p->parent->parent->color = RED;
+							p = p->parent->parent;
+						}
+						else {
+							if (p == p->parent->right) {
+								p = p->parent;
+								_left_rotate(p);
+							}
+							p->parent->color = BLACK;
+							p->parent->parent->color = RED;
+							_right_rotate(p->parent->parent);
+						}
+					}
+					if (p == _root)
+						break ;
+				}
+				_root->color = BLACK;
+			}
 
+			void	_right_rotate(pointer p) {
+				pointer	l = p->left;
+				p->left = l->right;
+				if (l->right != _end)
+					l->right->parent = p;
+				l->parent = p->parent;
+				if (p->parent == _end)
+					_root = l;
+				else if (p == p->parent->right)
+					p->parent->right = l;
+				else
+					p->parent->left = l;
+				l->right = p;
+				p->parent = l;
+			}
+
+			void	_left_rotate(pointer p) {
+				pointer	r = p->right;
+				p->right = r->left;
+				if (r->left != _end)
+					r->left->parent = p;
+				r->parent = p->parent;
+				if (p->parent == _end)
+					_root = r;
+				else if (p == p->parent->left)
+					p->parent->left = r;
+				else
+					p->parent->right = r;
+				r->left = p;
+				p->parent = r;
 			}
 
 	};
