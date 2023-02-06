@@ -115,6 +115,16 @@ namespace	ft {
 				return (p);
 			}
 
+			bool	erase(const value_type &val) {
+
+			}
+
+			/*** Lookup ***/
+
+			pointer	find(const value_type &val) {
+				return (_find(val, _root));
+			}
+
 		private:
 
 			/*** MEMBER OBJECTS ***/
@@ -213,6 +223,19 @@ namespace	ft {
 					p->parent->right = r;
 				r->left = p;
 				p->parent = r;
+			}
+
+			/*** Lookup ***/
+
+			pointer	_find(const value_type &val, const pointer current) const {
+				if (current == _end)
+					return (NULL);
+				else if (_cmp(current->value, val))
+					return (_find(val, current_>right));
+				else if (_cmp(val, current->value))
+					return (_find(val, current->left));
+				else
+					return (current);
 			}
 
 	};
