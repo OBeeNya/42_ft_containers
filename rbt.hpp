@@ -116,7 +116,41 @@ namespace	ft {
 			}
 
 			bool	erase(const value_type &val) {
-
+				pointer	to_del, to_switch, to_fix;
+				to_del = _find(val, _root);
+				if (to_del == NULL)
+					return (false);
+				to_switch = to_del;
+				int	switch_col = to_switch->color;
+				if (to_del->left == _end) {
+					to_fix = to_del->right;
+					_transplant(to_del, to_del->right);
+				}
+				else if (to_del->right == _end) {
+					to_fix = to_del->left;
+					_transplant(to_del, to_del->left);
+				}
+				else {
+					to_switch = _get_min(to_del->right);
+					switch_col = to_switch->color;
+					to_fix = to_del->right;
+					if (to_switch->parent == to_del)
+						to_fix->parent = to_switch;
+					else {
+						_transplant(to_switch, to_switch->right);
+						to_switch->right = to_del->right;
+						to_switch->right->parent = to_switch;
+					}
+					_transplant(to_del, to_switch);
+					to_switch->left = to_del->left;
+					to_switch->left->parent = to_switch;
+					to_switch->color = to_del->color;
+				}
+				_a.destroy(to_del);
+				_a.deallocate(to_del, 1);
+				if (switch_col == BLACK)
+					_erase_fix(to_fix);
+				return (true);
 			}
 
 			/*** Lookup ***/
@@ -136,6 +170,18 @@ namespace	ft {
 			size_type		_size;
 
 			/*** MEMBER FUNCTIONS ***/
+
+			/*** Iterators ***/
+
+			pointer	_get_min(pointer p) const {
+				if (!p || p == _end)
+					return (_end);
+				else {
+					while (p->left != _end)
+						p = p->left;
+					return (p);
+				}
+			}
 
 			/*** Modifiers ***/
 
@@ -225,13 +271,82 @@ namespace	ft {
 				p->parent = r;
 			}
 
+			void	_transplant(pointer x, pointer y) {
+				if (x->parent == _end)
+					_root = y;
+				else if (x == x->parent->left)
+					x->parent->left = y;
+				else
+					x->parent->right = y;
+				y->parent = x->parent;
+			}
+
+			void	_erase_fix(pointer to_fix) {
+				pointer	save;
+				while (to_fix != _root && to_fix-> color == BLACK) {
+					if (to_fix == to_fix->parent->left) {
+						save = to_fix->parent->right;
+						if (save->color == RED) {
+							save->color = BLACK;
+							to_fix->parent->color = RED;
+							_left_rotate(to_fix->parent);
+							save = to_fix->parent->right;
+						}
+						if (save->left->color == BLACK && save->right->color == BLACK) {
+							save->color = BLACK;
+							to_fix = to_fix->parent;
+						}
+						else {
+							if (save->right->color == BLACK) {
+								save->left->color = BLACK;
+								save->color = RED;
+								_right_rotate(save);
+								save = to_fix->parent->right;
+							}
+							save->color = to_fix->parent->color;
+							to_fix->parent->color = BLACK;
+							save->right->color = BLACK;
+							_left_rotate(to_fix->parent);
+							to_fix = _root;
+						}
+					}
+					else {
+						save = to_fix->parent->left;
+						if (save->color == RED) {
+							save->color = BLACK;
+							to_fix->parent->color = RED;
+							_right_rotate(to_fix->parent);
+							save = to_fix->parent->left;
+						}
+						if (save->left->color == BLACK && save->right->color == BLACK) {
+							save->color = RED;
+							to_fix = to_fix->parent;
+						}
+						else {
+							if (save->left->color == BLACK) {
+								save->right->color = BLACK;
+								save->color = RED;
+								_left_rotate(save);
+								save = to_fix->parent->left;
+							}
+							save->color = to_fix->parent->color;
+							to_fix->parent->color = BLACK;
+							save->left->color = BLACK;
+							_right_rotate(to_fix->parent);
+							to_fix = _root;
+						}
+					}
+				}
+				to_fix->color = BLACK;
+			}
+
 			/*** Lookup ***/
 
 			pointer	_find(const value_type &val, const pointer current) const {
 				if (current == _end)
 					return (NULL);
 				else if (_cmp(current->value, val))
-					return (_find(val, current_>right));
+					return (_find(val, current->right));
 				else if (_cmp(val, current->value))
 					return (_find(val, current->left));
 				else
