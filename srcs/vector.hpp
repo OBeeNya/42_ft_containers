@@ -1,13 +1,13 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
-# include "ft_containers.hpp"
-# include "random_access_iterator.hpp"
-# include "reverse_iterator.hpp"
-# include "enable_if.hpp"
-# include "is_integral.hpp"
-# include "equal.hpp"
-# include "lexicographical_compare.hpp"
+# include "../includes/ft_containers.hpp"
+# include "../includes/random_access_iterator.hpp"
+# include "../includes/reverse_iterator.hpp"
+# include "../includes/enable_if.hpp"
+# include "../includes/is_integral.hpp"
+# include "../includes/equal.hpp"
+# include "../includes/lexicographical_compare.hpp"
 
 namespace ft {
 

@@ -1,7 +1,7 @@
-#include "vector.hpp"
-#include "stack.hpp"
+#include "../srcs/vector.hpp"
+#include "../srcs/stack.hpp"
 #include "test.hpp"
-#include "map.hpp"
+#include "../srcs/map.hpp"
 
 int	main() {
 

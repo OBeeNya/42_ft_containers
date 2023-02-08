@@ -1,10 +1,10 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
-# include "ft_containers.hpp"
-# include "pair.hpp"
-# include "reverse_iterator.hpp"
-# include "rbt.hpp"
+# include "../includes/ft_containers.hpp"
+# include "../includes/pair.hpp"
+# include "../includes/reverse_iterator.hpp"
+# include "../includes/rbt.hpp"
 
 namespace	ft {
 
@@ -30,6 +30,7 @@ namespace	ft {
 			typedef const T*										const_iterator;
 			typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+			typedef typename ft::rbt<value_type, value_compare>		rbt;
 
 			/*** MEMBER CLASSES ***/
 
