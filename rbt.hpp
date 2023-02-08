@@ -61,7 +61,7 @@ namespace	ft {
 			}
 
 			size_type	size() const {
-				return (size);
+				return (_size);
 			}
 
 			size_type	max_size() const {
@@ -153,10 +153,42 @@ namespace	ft {
 				return (true);
 			}
 
+			void	swap(rbt &other) {
+
+			}
+
 			/*** Lookup ***/
 
 			pointer	find(const value_type &val) {
 				return (_find(val, _root));
+			}
+
+			pointer	lower_bound(const value_type &val) const {
+				pointer	tmp = _root;
+				pointer	save = _end;
+				while (tmp != _end) {
+					if (!_cmp(tmp->value, val)) {
+						save = tmp;
+						tmp = tmp->left;
+					}
+					else
+						tmp = tmp->right;
+				}
+				return (save);
+			}
+
+			pointer	upper_bound(const value_type &val) const {
+				pointer	tmp = _root;
+				pointer	save = _end;
+				while (tmp != _end) {
+					if (_cmp(tmp->value, val)) {
+						save = tmp;
+						tmp = tmp->left;
+					}
+					else
+						tmp = tmp->right;
+				}
+				return (save);
 			}
 
 		private:

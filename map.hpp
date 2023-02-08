@@ -79,7 +79,7 @@ namespace	ft {
 		private:
 
 			value_compare	_comp;
-			allocator_type	_alloc;
+			allocator_type	_a;
 			pointer			_first;
 
 	};
