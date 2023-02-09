@@ -31,7 +31,7 @@ namespace	ft {
 
 		~node() {}
 
-		node	&operator==(node &rhs) {
+		node	&operator=(node &rhs) {
 			if (&this == rhs)
 				return (*this);
 			value = rhs.value;
