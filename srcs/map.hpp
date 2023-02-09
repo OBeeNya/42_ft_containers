@@ -29,8 +29,8 @@ namespace	ft {
 			typedef typename allocator_type::const_pointer			const_pointer;
 			// typedef T*												iterator;
 			// typedef const T*										const_iterator;
-			typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
-			typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+			// typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
+			// typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 			/*** MEMBER CLASSES ***/
 

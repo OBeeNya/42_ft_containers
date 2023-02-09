@@ -44,7 +44,7 @@ namespace	ft {
 			~map_iterator() {}
 
 			operator	map_iterator< const T, node > () {
-				return (map_iterator< const T, node >(_current, _root, _end))
+				return (map_iterator< const T, node >(_current, _root, _end));
 			}
 
 			map_iterator	&operator=(const map_iterator &rhs) {
@@ -131,7 +131,7 @@ namespace	ft {
 				if (_current->left != _end)
 					return (_max(_current->left));
 				node_pointer	previous = _current->parent;
-				while (preivous != _end && _current == preivous->left) {
+				while (previous != _end && _current == previous->left) {
 					_current = previous;
 					previous = previous->parent;
 				}
@@ -154,7 +154,7 @@ namespace	ft {
 				return (p);
 			}
 
-	}
+	};
 
 };
 
