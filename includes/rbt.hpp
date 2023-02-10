@@ -36,21 +36,21 @@ namespace	ft {
 
 			~rbt() {
 				if (_root != _end)
-					clear(_root);
+					_clear(_root);
 				_a.deallocate(_end, 1);
 			}
 
 			/*** Iterators ***/
 
-			pointer	get_begin() const {
-				return (_get_min(_root));
+			pointer	begin() const {
+				return (_min(_root));
 			}
 
-			pointer	get_end() const {
+			pointer	end() const {
 				return (_end);
 			}
 
-			pointer	get_root() const {
+			pointer	root() const {
 				return (_root);
 			}
 
@@ -131,7 +131,7 @@ namespace	ft {
 					_transplant(to_del, to_del->left);
 				}
 				else {
-					to_switch = _get_min(to_del->right);
+					to_switch = _min(to_del->right);
 					switch_col = to_switch->color;
 					to_fix = to_del->right;
 					if (to_switch->parent == to_del)
@@ -151,10 +151,6 @@ namespace	ft {
 				if (switch_col == BLACK)
 					_erase_fix(to_fix);
 				return (true);
-			}
-
-			void	swap(rbt &other) {
-
 			}
 
 			/*** Lookup ***/
@@ -205,7 +201,7 @@ namespace	ft {
 
 			/*** Iterators ***/
 
-			pointer	_get_min(pointer p) const {
+			pointer	_min(pointer p) const {
 				if (!p || p == _end)
 					return (_end);
 				else {
