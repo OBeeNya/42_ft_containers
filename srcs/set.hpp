@@ -6,6 +6,8 @@
 # include "../includes/rbt.hpp"
 # include "../includes/reverse_iterator.hpp"
 # include "../includes/pair.hpp"
+# include "../includes/equal.hpp"
+# include "../includes/lexicographical_compare.hpp"
 
 namespace	ft {
 
