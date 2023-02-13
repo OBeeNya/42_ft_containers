@@ -59,13 +59,17 @@ int	main() {
 	{
 		int					i[4] = {0, 1, 2, 3};
 		LIB::vector<int>	v(i[1], i[2]);
+		std::cout << v.at(0) << std::endl;
 		try {
-			std::cout << v.at(1) << std::endl;
 			std::cout << v.at(6) << std::endl;
 		}
 		catch (std::exception &e) {
 			std::cout << e.what() << std::endl;
 		}
+	}
+
+	{
+
 	}
 
 	return (0);

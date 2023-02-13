@@ -157,8 +157,17 @@ namespace ft {
 			}
 
 			const_reference	at(size_type pos) const {
-				if (!(pos < size()))
-					throw (std::out_of_range("vector::at"));
+				if (!(pos < size())) {
+					std::string	p;
+					std::ostringstream	o1;
+					std::ostringstream	o2;
+					o1 << pos;
+					p = o1.str();
+					std::string	c;
+					o2 << _count;
+					c = o2.str();
+					throw (std::out_of_range(std::string("vector::_M_range_check: __n (which is ") + p + std::string(") >= this->size() (which is ") + c + std::string(")")));
+				}
 				return (const_reference(*(_first + pos)));
 			}
 
