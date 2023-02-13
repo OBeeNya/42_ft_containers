@@ -2,7 +2,7 @@
 
 // random_access_iterator.hpp useless after all?
 
-template< typename T >
+template<typename T>
 void	printVector	(LIB::vector<T> &v) {
 	typename LIB::vector<T>::iterator	first = v.begin();
 	typename LIB::vector<T>::iterator	last = v.end();
@@ -20,19 +20,53 @@ void	printVector	(LIB::vector<T> &v) {
 
 int	main() {
 
-	LIB::vector<int>	v;
+	/*** MEMBER FUNCTIONS ***/
 
-	printVector(v);
-	v.push_back(1);
-	printVector(v);
-	v.push_back(2);
-	printVector(v);
-	v.push_back(3);
-	printVector(v);
-	v.push_back(4);
-	printVector(v);
-	v.push_back(5);
-	printVector(v);
+	{
+		LIB::vector<int>	v1;
+		std::allocator<int>	a;
+		LIB::vector<int>	v2(a);
+		LIB::vector<int>	v3(5);
+		int					i[4] = {0, 1, 2, 3};
+		LIB::vector<int>	v4(i[1], i[2]);
+		LIB::vector<int>	v5(v4);
+
+		printVector(v1);
+		printVector(v2);
+		printVector(v3);
+		printVector(v4);
+		printVector(v5);
+	}
+
+	{
+		int					i[4] = {0, 1, 2, 3};
+		LIB::vector<int>	v1(i[1], i[2]);
+		LIB::vector<int>	v2;
+		v2 = v1;
+		printVector(v2);
+	}
+
+
+	{
+		int					i[4] = {0, 1, 2, 3};
+		LIB::vector<int>	v;
+		v.assign(i[1], i[2]);
+		printVector(v);
+	}
+
+	/*** Element access ***/
+
+	{
+		int					i[4] = {0, 1, 2, 3};
+		LIB::vector<int>	v(i[1], i[2]);
+		try {
+			std::cout << v.at(1) << std::endl;
+			std::cout << v.at(6) << std::endl;
+		}
+		catch (std::exception &e) {
+			std::cout << e.what() << std::endl;
+		}
+	}
 
 	return (0);
 }

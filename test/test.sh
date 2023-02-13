@@ -15,7 +15,7 @@ for cont in ${CONT[@]}; do
 	diff "$cont"_ft.txt "$cont"_std.txt > "$cont"_diff.txt
 
 	if [ -s "$cont"_diff.txt ]; then
-		echo "Differences in" $cont "implementations"
+		echo "differences in" $cont "implementations"
 	else
 		echo $cont "implementation is ok"
 	fi

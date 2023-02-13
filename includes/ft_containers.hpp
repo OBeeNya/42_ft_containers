@@ -7,6 +7,8 @@
 # include <stdexcept>
 # include <functional>
 # include <limits>
+# include <string>
+# include <sstream>
 # include <vector>
 # include <stack>
 # include <map>
