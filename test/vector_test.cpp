@@ -69,6 +69,17 @@ int	main() {
 	}
 
 	{
+		int					i[4] = {0, 1, 2, 3};
+		LIB::vector<int>	v(i[1], i[3]);
+		std::cout << v[0] << std::endl;
+		std::cout << v.front() << std::endl;
+		std::cout << v.back() << std::endl;
+		std::cout << *(v.data()) << std::endl;
+	}
+
+	/*** Iterators ***/
+
+	{
 
 	}
 
