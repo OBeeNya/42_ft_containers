@@ -3,13 +3,13 @@
 #include "../srcs/map.hpp"
 #include "../srcs/set.hpp"
 #include "vector_test.hpp"
-
+#include "../includes/ft_containers.hpp"
 
 // random_access_iterator.hpp useless after all?
 
 int	main() {
 
-	ft::vector<int>	v;
+	LIB::vector<int>	v;
 
 	printVector(v);
 	v.push_back(1);

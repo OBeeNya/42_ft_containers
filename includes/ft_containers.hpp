@@ -7,6 +7,10 @@
 # include <stdexcept>
 # include <functional>
 # include <limits>
+# include <vector>
+# include <stack>
+# include <map>
+# include <set>
 
 # define VECTOR_CAPACITY_ADJUSTMENT 2
 # define BLACK 0
