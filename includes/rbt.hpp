@@ -25,6 +25,11 @@ namespace	ft {
 
 			/*** MEMBER FUNCTIONS ***/
 
+			rbt():
+				_cmp(),
+				_a(),
+				_size(0) {}
+
 			rbt(const value_compare	&cmp = value_compare()):
 				_cmp(cmp),
 				_a(allocator_type()),
@@ -72,7 +77,7 @@ namespace	ft {
 
 			void	clear() {
 				_clear(_root);
-				size = 0;
+				_size = 0;
 				_root = _end;
 			}
 

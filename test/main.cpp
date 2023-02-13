@@ -2,7 +2,8 @@
 #include "../srcs/stack.hpp"
 #include "../srcs/map.hpp"
 #include "../srcs/set.hpp"
-#include "test.hpp"
+#include "vector_test.hpp"
+
 
 // random_access_iterator.hpp useless after all?
 

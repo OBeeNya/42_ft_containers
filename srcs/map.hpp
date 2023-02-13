@@ -62,6 +62,8 @@ namespace	ft {
 						key_compare	comp;
 
 						/*** MEMBER FUNCTIONS ***/
+						
+						value_compare() {}
 
 						value_compare(key_compare c):
 							comp(c) {}
@@ -77,7 +79,7 @@ namespace	ft {
 			map():
 				_comp(),
 				_a(),
-				_t(NULL) {}
+				_t(value_compare()) {}
 
 			explicit map(const key_compare &comp, const allocator_type &alloc = Allocator()):
 				_comp(value_compare(comp)),
@@ -132,9 +134,9 @@ namespace	ft {
 			}
 
 			mapped_type	&operator[](const key_type &key) {
-				const_iterator	it = find(key);
+				iterator	it = find(key);
 				if (it == end())
-					it = insert(NULL, value_type(key, mapped_type()));
+					it = iterator(_t.insert(value_type(key, mapped_type())), _t.root(), _t.end());
 				return (it->second);
 			}
 
