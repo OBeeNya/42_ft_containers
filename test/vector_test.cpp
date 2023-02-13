@@ -1,7 +1,6 @@
-#ifndef TEST_HPP
-# define TEST_HPP
+#include "../srcs/vector.hpp"
 
-# include "../includes/ft_containers.hpp"
+// random_access_iterator.hpp useless after all?
 
 template< typename T >
 void	printVector	(LIB::vector<T> &v) {
@@ -19,4 +18,21 @@ void	printVector	(LIB::vector<T> &v) {
 	std::cout << std::endl;
 }
 
-#endif
+int	main() {
+
+	LIB::vector<int>	v;
+
+	printVector(v);
+	v.push_back(1);
+	printVector(v);
+	v.push_back(2);
+	printVector(v);
+	v.push_back(3);
+	printVector(v);
+	v.push_back(4);
+	printVector(v);
+	v.push_back(5);
+	printVector(v);
+
+	return (0);
+}

@@ -40,7 +40,7 @@ namespace	ft {
 			set():
 				_comp(),
 				_a(),
-				_t() {}
+				_t(value_compare()) {}
 
 			explicit set(const key_compare &comp, const allocator_type &alloc = Allocator()):
 				_comp(comp),

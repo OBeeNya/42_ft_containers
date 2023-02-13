@@ -1,11 +1,19 @@
 NAME=containers
 
-c++ -Wall -Werror -Wextra -std=c++98 -fsanitize=address -g3 main.cpp -DLIB=ft -o $NAME
+CONT=("vector" "stack" "map" "set")
 
-./$NAME > ft.txt
+for cont in ${CONT[@]}; do
 
-c++ -Wall -Werror -Wextra -std=c++98 -fsanitize=address -g3 main.cpp -DLIB=std -o $NAME
+	c++ -Wall -Werror -Wextra -std=c++98 -fsanitize=address -g3 "$cont"_test.cpp -DLIB=ft -o $NAME
 
-./$NAME > std.txt
+	./$NAME > "$cont"_ft.txt
 
-diff ft.txt std.txt > diff.txt
+	c++ -Wall -Werror -Wextra -std=c++98 -fsanitize=address -g3 "$cont"_test.cpp -DLIB=std -o $NAME
+
+	./$NAME > "$cont"_std.txt
+
+	diff "$cont"_ft.txt "$cont"_std.txt > "$cont"_diff.txt
+
+done
+
+rm ./$NAME
