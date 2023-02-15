@@ -2,7 +2,7 @@
 
 int	main() {
 
-	LIB::map<std::string, int>	m;
+	LIB::map<char, float>	m;
 
 	return (0);
 

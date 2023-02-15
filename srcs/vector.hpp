@@ -282,42 +282,70 @@ namespace ft {
 				_count = 0;
 			}
 
-			iterator	insert(const_iterator pos, const T &value) {
-				// difference_type	first_pos = std::distance(begin(), pos);
-				difference_type	first_pos = pos - begin();
-				if (!_capacity)
-					reserve(1);
-				else if (_count >= _capacity)
-					reserve(_capacity * VECTOR_CAPACITY_ADJUSTMENT);
-				size_t	i = 1;
-				for (difference_type j = _count; j > first_pos; i++, j--) {
-					_alloc.construct(begin() + j, *(end() - i));
-					_alloc.destroy(end() - i);
-				}
-				_alloc.construct(begin() + first_pos, value);
-				_count++;
-				// return (iterator(begin() + first_pos));
-				return (begin() + first_pos);
+			iterator	insert(const_iterator pos, const value_type &value) {
+				difference_type	dist = pos - begin();
+				insert(pos, 1, value);
+				return (iterator(begin() + dist));
 			}
 
-			iterator	insert(const_iterator pos, size_type count, const T &value) {
+			void	insert(const_iterator pos, size_type count, const value_type &value) {
+				difference_type	a = pos - begin();
+				difference_type	b = end() - pos;
+				difference_type	c = end() - begin();
 				if (!count)
-					return ((iterator)pos);
-				// difference_type	first_pos = std::distance(begin(), pos);
-				difference_type	first_pos = pos - begin();
-				if (_count + count >= _capacity * VECTOR_CAPACITY_ADJUSTMENT)
-					reserve(_count + count);
-				else if (_count + count > _capacity)
+					return ;
+				if (count + _count <= _capacity);
+				else if (count + _count >= _capacity * VECTOR_CAPACITY_ADJUSTMENT)
+					reserve(count + _count);
+				else
 					reserve(_count * VECTOR_CAPACITY_ADJUSTMENT);
-				size_t	i = 1;
-				for (difference_type j = 0; j >= first_pos; i++, j--) {
-					_alloc.construct(begin() + j + count, *(end() - i));
-					_alloc.destroy(end() - i);
+				for (difference_type i = 1; i <= b; i++) {
+					_alloc.construct((_first + c + count) - i, *(_first + c - i));
+					_alloc.destroy(_first + c - i);
 				}
-				for (size_type j = 0; j < count; first_pos++, j++)
-					_alloc.construct(begin() + first_pos, value);
-				return (iterator(begin() + first_pos));
+				for (size_type i = 0; i < count; i++)
+					_alloc.construct(_first + a + i, value);
+				_last = _first + _count + count;
+				_count += count;
+				pos++;
 			}
+
+			// iterator	insert(const_iterator pos, const T &value) {
+			// 	// difference_type	first_pos = std::distance(begin(), pos);
+			// 	difference_type	first_pos = pos - begin();
+			// 	if (!_capacity)
+			// 		reserve(1);
+			// 	else if (_count >= _capacity)
+			// 		reserve(_capacity * VECTOR_CAPACITY_ADJUSTMENT);
+			// 	size_t	i = 1;
+			// 	for (difference_type j = _count; j > first_pos; i++, j--) {
+			// 		_alloc.construct(begin() + j, *(end() - i));
+			// 		_alloc.destroy(end() - i);
+			// 	}
+			// 	_alloc.construct(begin() + first_pos, value);
+			// 	_count++;
+			// 	// return (iterator(begin() + first_pos));
+			// 	return (begin() + first_pos);
+			// }
+
+			// iterator	insert(const_iterator pos, size_type count, const T &value) {
+			// 	if (!count)
+			// 		return ((iterator)pos);
+			// 	// difference_type	first_pos = std::distance(begin(), pos);
+			// 	difference_type	first_pos = pos - begin();
+			// 	if (_count + count >= _capacity * VECTOR_CAPACITY_ADJUSTMENT)
+			// 		reserve(_count + count);
+			// 	else if (_count + count > _capacity)
+			// 		reserve(_count * VECTOR_CAPACITY_ADJUSTMENT);
+			// 	size_t	i = 1;
+			// 	for (difference_type j = 0; j >= first_pos; i++, j--) {
+			// 		_alloc.construct(begin() + j + count, *(end() - i));
+			// 		_alloc.destroy(end() - i);
+			// 	}
+			// 	for (size_type j = 0; j < count; first_pos++, j++)
+			// 		_alloc.construct(begin() + first_pos, value);
+			// 	return (iterator(begin() + first_pos));
+			// }
 
 			template <class InputIt>
 			iterator	insert(const_iterator pos, InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = NULL) {
