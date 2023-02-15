@@ -60,7 +60,6 @@ int	main() {
 		printStack(s);
 	}
 
-
 	std::cout << "NON-MEMBER FUNCTIONS" << std::endl;
 
 	{

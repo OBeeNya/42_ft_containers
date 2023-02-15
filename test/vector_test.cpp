@@ -112,7 +112,8 @@ int	main() {
 		printVector(v);
 		v.insert(v.end(), 3, 3);
 		printVector(v);
-		v.insert(v.end(), v[0], v[2]);
+		LIB::vector<int>	v2;
+		v2.insert(v2.end(), v[0], v[2]);
 		printVector(v);
 		v.assign(5, 5);
 		v.erase(v.begin() + 1, v.end());
@@ -123,49 +124,48 @@ int	main() {
 		printVector(v);
 		v.pop_back();
 		printVector(v);
-		LIB::vector<int>	v2;
-		v2.assign(7, 7);
-		v.swap(v2);
+		LIB::vector<int>	v3;
+		v3.assign(7, 7);
+		v.swap(v3);
 		printVector(v);
-		printVector(v2);
+		printVector(v3);
 	}
 
+	std::cout << "NON-MEMBER FUNCTIONS" << std::endl;
 
-	// std::cout << "NON-MEMBER FUNCTIONS" << std::endl;
-
-	// {
-	// 	LIB::vector<int>	v1;
-	// 	v1.assign(5, 5);
-	// 	LIB::vector<int>	v2;
-	// 	v2.assign(7, 7);
-	// 	if (v1 == v2)
-	// 		std::cout << std::boolalpha << true << std::endl;
-	// 	else
-	// 		std::cout << std::boolalpha << false << std::endl;
-	// 	if (v1 != v2)
-	// 		std::cout << std::boolalpha << true << std::endl;
-	// 	else
-	// 		std::cout << std::boolalpha << false << std::endl;
-	// 	if (v1 < v2)
-	// 		std::cout << std::boolalpha << true << std::endl;
-	// 	else
-	// 		std::cout << std::boolalpha << false << std::endl;
-	// 	if (v1 <= v2)
-	// 		std::cout << std::boolalpha << true << std::endl;
-	// 	else
-	// 		std::cout << std::boolalpha << false << std::endl;
-	// 	if (v1 > v2)
-	// 		std::cout << std::boolalpha << true << std::endl;
-	// 	else
-	// 		std::cout << std::boolalpha << false << std::endl;
-	// 	if (v1 >= v2)
-	// 		std::cout << std::boolalpha << true << std::endl;
-	// 	else
-	// 		std::cout << std::boolalpha << false << std::endl;
-	// 	LIB::swap(v1, v2);
-	// 	printVector(v1);
-	// 	printVector(v2);
-	// }
+	{
+		LIB::vector<int>	v1;
+		v1.assign(5, 5);
+		LIB::vector<int>	v2;
+		v2.assign(7, 7);
+		if (v1 == v2)
+			std::cout << std::boolalpha << true << std::endl;
+		else
+			std::cout << std::boolalpha << false << std::endl;
+		if (v1 != v2)
+			std::cout << std::boolalpha << true << std::endl;
+		else
+			std::cout << std::boolalpha << false << std::endl;
+		if (v1 < v2)
+			std::cout << std::boolalpha << true << std::endl;
+		else
+			std::cout << std::boolalpha << false << std::endl;
+		if (v1 <= v2)
+			std::cout << std::boolalpha << true << std::endl;
+		else
+			std::cout << std::boolalpha << false << std::endl;
+		if (v1 > v2)
+			std::cout << std::boolalpha << true << std::endl;
+		else
+			std::cout << std::boolalpha << false << std::endl;
+		if (v1 >= v2)
+			std::cout << std::boolalpha << true << std::endl;
+		else
+			std::cout << std::boolalpha << false << std::endl;
+		LIB::swap(v1, v2);
+		printVector(v1);
+		printVector(v2);
+	}
 
 	return (0);
 }

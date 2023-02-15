@@ -310,79 +310,29 @@ namespace ft {
 				pos++;
 			}
 
-			// iterator	insert(const_iterator pos, const T &value) {
-			// 	// difference_type	first_pos = std::distance(begin(), pos);
-			// 	difference_type	first_pos = pos - begin();
-			// 	if (!_capacity)
-			// 		reserve(1);
-			// 	else if (_count >= _capacity)
-			// 		reserve(_capacity * VECTOR_CAPACITY_ADJUSTMENT);
-			// 	size_t	i = 1;
-			// 	for (difference_type j = _count; j > first_pos; i++, j--) {
-			// 		_alloc.construct(begin() + j, *(end() - i));
-			// 		_alloc.destroy(end() - i);
-			// 	}
-			// 	_alloc.construct(begin() + first_pos, value);
-			// 	_count++;
-			// 	// return (iterator(begin() + first_pos));
-			// 	return (begin() + first_pos);
-			// }
-
-			// iterator	insert(const_iterator pos, size_type count, const T &value) {
-			// 	if (!count)
-			// 		return ((iterator)pos);
-			// 	// difference_type	first_pos = std::distance(begin(), pos);
-			// 	difference_type	first_pos = pos - begin();
-			// 	if (_count + count >= _capacity * VECTOR_CAPACITY_ADJUSTMENT)
-			// 		reserve(_count + count);
-			// 	else if (_count + count > _capacity)
-			// 		reserve(_count * VECTOR_CAPACITY_ADJUSTMENT);
-			// 	size_t	i = 1;
-			// 	for (difference_type j = 0; j >= first_pos; i++, j--) {
-			// 		_alloc.construct(begin() + j + count, *(end() - i));
-			// 		_alloc.destroy(end() - i);
-			// 	}
-			// 	for (size_type j = 0; j < count; first_pos++, j++)
-			// 		_alloc.construct(begin() + first_pos, value);
-			// 	return (iterator(begin() + first_pos));
-			// }
-
 			template <class InputIt>
-			iterator	insert(const_iterator pos, InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = NULL) {
-				if (first == last)
-					return (pos);
-				// difference_type	first_pos = std::distance(begin(), pos);
-				difference_type	first_pos = pos - begin();
-				difference_type	ret = first_pos;
-				size_type	count = static_cast<size_type>(std::distance(first, last));
-				if (_count + count > _capacity * VECTOR_CAPACITY_ADJUSTMENT)
-					_capacity = _count + count;
-				else if (_count + count >= _capacity)
-					_capacity = _count * VECTOR_CAPACITY_ADJUSTMENT;
-				pointer	first_tmp = _alloc.allocate(_capacity);
-				difference_type	i = 0;
-				while (i < first_pos) {
-					_alloc.construct(first_tmp + i, *(_first + i));
-					i++;
+			void	insert(const_iterator pos, InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = NULL) {
+				size_type	first_last = static_cast<size_type>(last - first);
+				difference_type	begin_pos = pos - begin();
+				difference_type	pos_end = end() - pos;
+				difference_type	begin_end = _count;
+				if (!first_last)
+					return ;
+				if (first_last <= _capacity);
+				else if (first_last > _capacity * VECTOR_CAPACITY_ADJUSTMENT)
+					reserve(first_last + _count);
+				else
+					reserve(_count * VECTOR_CAPACITY_ADJUSTMENT);
+				for (difference_type i = 1; i <= pos_end; i++) {
+					_alloc.construct(_first + first_last + begin_end - i, *(_first + begin_end - i));
+					_alloc.destroy(_first + begin_end - i);
 				}
-				while (first != last) {
-					_alloc.construct(first_tmp + i, *first);
+				for (size_type i = 0; i < first_last; i++) {
+					_alloc.construct(_first + begin_pos + i, *first);
 					++first;
-					i++;
 				}
-				while ((size_type)first_pos < _count) {
-					_alloc.construct(first_tmp + i, *(_first + first_pos));
-					i++;
-					first_pos++;
-				}
-				if (_capacity) {
-					for (size_type i = 0; i < count; i++)
-						_alloc.destroy(_first + i);
-				}
-				_alloc.deallocate(_first, _capacity);
-				_first = first_tmp;
-				_count += count;
-				return (iterator(begin() + ret));
+				_last = _first + _count + first_last;
+				_count += first_last;
 			}
 
 			iterator	erase(iterator i) {
