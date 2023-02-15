@@ -2,7 +2,6 @@
 # define VECTOR_HPP
 
 # include "../includes/ft_containers.hpp"
-// # include "../includes/random_access_iterator.hpp"
 # include "../includes/reverse_iterator.hpp"
 # include "../includes/enable_if.hpp"
 # include "../includes/is_integral.hpp"

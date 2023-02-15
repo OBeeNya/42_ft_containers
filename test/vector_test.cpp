@@ -10,7 +10,7 @@ void	printVector	(LIB::vector<T> &v) {
 	std::cout << "Vector max_size: " << v.max_size() << std::endl;
 	std::cout << "Vector capacity: " << v.capacity() << std::endl;
 	std::cout << "Is the vector empty: " << std::boolalpha << v.empty() << std::endl;
-	std::cout << "Content of vector :" << std::endl;
+	std::cout << "Content of vector:" << std::endl;
 	while (first != last) {
 		std::cout << *first << std::endl;
 		++first;
@@ -45,7 +45,6 @@ int	main() {
 		v2 = v1;
 		printVector(v2);
 	}
-
 
 	{
 		int					i[4] = {0, 1, 2, 3};

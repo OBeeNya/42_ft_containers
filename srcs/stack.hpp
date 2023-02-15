@@ -70,17 +70,17 @@ namespace	ft {
 			/*** NON-MEMBER FUNCTIONS ***/
 
 			template< class T2, class Container2 >
-			friend bool	operator==(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs);
+			friend bool	operator==(const ft::stack<T2, Container2> &lhs, const ft::stack<T2, Container2> &rhs);
 			template< class T2, class Container2 >
-			friend bool	operator!=(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs);
+			friend bool	operator!=(const ft::stack<T2, Container2> &lhs, const ft::stack<T2, Container2> &rhs);
 			template< class T2, class Container2 >
-			friend bool	operator<(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs);
+			friend bool	operator<(const ft::stack<T2, Container2> &lhs, const ft::stack<T2, Container2> &rhs);
 			template< class T2, class Container2 >
-			friend bool	operator<=(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs);
+			friend bool	operator<=(const ft::stack<T2, Container2> &lhs, const ft::stack<T2, Container2> &rhs);
 			template< class T2, class Container2 >
-			friend bool	operator>(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs);
+			friend bool	operator>(const ft::stack<T2, Container2> &lhs, const ft::stack<T2, Container2> &rhs);
 			template< class T2, class Container2 >
-			friend bool	operator>=(const ft::stack<T, Container> &lhs, const ft::stack<T, Container> &rhs);
+			friend bool	operator>=(const ft::stack<T2, Container2> &lhs, const ft::stack<T2, Container2> &rhs);
 
 		protected:
 
