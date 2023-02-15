@@ -20,7 +20,7 @@ void	printVector	(LIB::vector<T> &v) {
 
 int	main() {
 
-	/*** MEMBER FUNCTIONS ***/
+	std::cout << "MEMBER FUNCTIONS" << std::endl;
 
 	{
 		LIB::vector<int>	v1;
@@ -54,7 +54,7 @@ int	main() {
 		printVector(v);
 	}
 
-	/*** Element access ***/
+	std::cout << "Element access" << std::endl;
 
 	{
 		int					i[4] = {0, 1, 2, 3};
@@ -77,10 +77,91 @@ int	main() {
 		std::cout << *(v.data()) << std::endl;
 	}
 
-	/*** Iterators ***/
+	std::cout << "Iterators" << std::endl;
 
 	{
+		LIB::vector<int>	v;
+		v.assign(5, 5);
+		printVector(v);
+		typename LIB::vector<int>::reverse_iterator	first = v.rbegin();
+		typename LIB::vector<int>::reverse_iterator	last = v.rend();
+		std::cout << "Vector size: " << v.size() << std::endl;
+		std::cout << "Vector max_size: " << v.max_size() << std::endl;
+		std::cout << "Vector capacity: " << v.capacity() << std::endl;
+		std::cout << "Is the vector empty: " << std::boolalpha << v.empty() << std::endl;
+		std::cout << "Content of vector :" << std::endl;
+		while (first != last) {
+			std::cout << *first << std::endl;
+			++first;
+		}
+		std::cout << std::endl;
+	}
 
+	std::cout << "Modifiers" << std::endl;
+
+	{
+		LIB::vector<int>	v;
+		v.assign(5, 5);
+		printVector(v);
+		v.clear();
+		printVector(v);
+		// v.insert(v.end(), 4);
+		// printVector(v);
+		// v.insert(v.end(), 3, 3);
+		// printVector(v);
+		// v.insert(v.end(), v[0], v[2]);
+		// printVector(v);
+		v.assign(5, 5);
+		v.erase(v.begin() + 1, v.end());
+		printVector(v);
+		v.clear();
+		v.assign(5, 5);
+		v.push_back(6);
+		printVector(v);
+		v.pop_back();
+		printVector(v);
+		LIB::vector<int>	v2;
+		v2.assign(7, 7);
+		v.swap(v2);
+		printVector(v);
+		printVector(v2);
+	}
+
+
+	std::cout << "NON-MEMBER FUNCTIONS" << std::endl;
+
+	{
+		LIB::vector<int>	v1;
+		v1.assign(5, 5);
+		LIB::vector<int>	v2;
+		v2.assign(7, 7);
+		if (v1 == v2)
+			std::cout << std::boolalpha << true << std::endl;
+		else
+			std::cout << std::boolalpha << false << std::endl;
+		if (v1 != v2)
+			std::cout << std::boolalpha << true << std::endl;
+		else
+			std::cout << std::boolalpha << false << std::endl;
+		if (v1 < v2)
+			std::cout << std::boolalpha << true << std::endl;
+		else
+			std::cout << std::boolalpha << false << std::endl;
+		if (v1 <= v2)
+			std::cout << std::boolalpha << true << std::endl;
+		else
+			std::cout << std::boolalpha << false << std::endl;
+		if (v1 > v2)
+			std::cout << std::boolalpha << true << std::endl;
+		else
+			std::cout << std::boolalpha << false << std::endl;
+		if (v1 >= v2)
+			std::cout << std::boolalpha << true << std::endl;
+		else
+			std::cout << std::boolalpha << false << std::endl;
+		LIB::swap(v1, v2);
+		printVector(v1);
+		printVector(v2);
 	}
 
 	return (0);

@@ -284,7 +284,8 @@ namespace ft {
 			}
 
 			iterator	insert(const_iterator pos, const T &value) {
-				difference_type	first_pos = std::distance(begin(), pos);
+				// difference_type	first_pos = std::distance(begin(), pos);
+				difference_type	first_pos = pos - begin();
 				if (!_capacity)
 					reserve(1);
 				else if (_count >= _capacity)
@@ -296,13 +297,15 @@ namespace ft {
 				}
 				_alloc.construct(begin() + first_pos, value);
 				_count++;
-				return (iterator(begin() + first_pos));
+				// return (iterator(begin() + first_pos));
+				return (begin() + first_pos);
 			}
 
 			iterator	insert(const_iterator pos, size_type count, const T &value) {
 				if (!count)
-					return (pos);
-				difference_type	first_pos = std::distance(begin(), pos);
+					return ((iterator)pos);
+				// difference_type	first_pos = std::distance(begin(), pos);
+				difference_type	first_pos = pos - begin();
 				if (_count + count >= _capacity * VECTOR_CAPACITY_ADJUSTMENT)
 					reserve(_count + count);
 				else if (_count + count > _capacity)
@@ -321,7 +324,8 @@ namespace ft {
 			iterator	insert(const_iterator pos, InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = NULL) {
 				if (first == last)
 					return (pos);
-				difference_type	first_pos = std::distance(begin(), pos);
+				// difference_type	first_pos = std::distance(begin(), pos);
+				difference_type	first_pos = pos - begin();
 				difference_type	ret = first_pos;
 				size_type	count = static_cast<size_type>(std::distance(first, last));
 				if (_count + count > _capacity * VECTOR_CAPACITY_ADJUSTMENT)
@@ -354,6 +358,19 @@ namespace ft {
 				return (iterator(begin() + ret));
 			}
 
+			iterator	erase(iterator i) {
+				iterator	tmp = i;
+				while (i + 1 != end()) {
+					_alloc.destroy(i);
+					_alloc.construct(i, *(i + 1));
+					i++;
+				}
+				_alloc.destroy(i);
+				_count--;
+				_last--;
+				return (tmp);
+			}
+
 			iterator	erase(iterator first, iterator last) {
 				iterator	ret = first;
 				while (first != last) {
@@ -376,7 +393,7 @@ namespace ft {
 
 			void	pop_back() {
 				_count--;
-				_alloc.destroy(_first + _count);
+				_alloc.destroy(--_last);
 			}
 
 			void	resize(size_type count, T value = T()) {
