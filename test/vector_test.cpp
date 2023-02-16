@@ -102,28 +102,36 @@ int	main() {
 		LIB::vector<int>	v;
 		v.assign(5, 5);
 		printVector(v);
+
 		v.clear();
 		std::cout << *(v.begin()) << std::endl;
 		printVector(v);
+
 		v.insert(v.end(), 1);
 		std::cout << v[0] << std::endl;
 		v.insert(v.end(), 2);
 		std::cout << v[1] << std::endl;
 		printVector(v);
+
 		v.insert(v.end(), 3, 3);
 		printVector(v);
+
 		LIB::vector<int>	v2;
 		v2.insert(v2.end(), v[0], v[2]);
 		printVector(v);
+
 		v.assign(5, 5);
 		v.erase(v.begin() + 1, v.end());
 		printVector(v);
+
 		v.clear();
 		v.assign(5, 5);
 		v.push_back(6);
 		printVector(v);
+
 		v.pop_back();
 		printVector(v);
+
 		LIB::vector<int>	v3;
 		v3.assign(7, 7);
 		v.swap(v3);

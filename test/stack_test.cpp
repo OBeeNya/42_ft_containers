@@ -17,8 +17,10 @@ int	main() {
 		LIB::stack<std::string>	s1;
 		s1.push("hello");
 		printStack(s1);
+
 		LIB::stack<std::string>	s2(s1);
 		printStack(s2);
+
 		LIB::vector<std::string>	v;
 		LIB::stack< std::string, LIB::vector<std::string> >	s3(v);
 		printStack(s2);

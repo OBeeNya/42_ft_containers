@@ -70,7 +70,7 @@ namespace	ft {
 			}
 
 			size_type	max_size() const {
-				return (std::numeric_limits<difference_type>::max() / sizeof(node_type::value_type));
+				return (std::numeric_limits<difference_type>::max() / sizeof(ft::node<value_type>));
 			}
 
 			/*** Modifiers ***/

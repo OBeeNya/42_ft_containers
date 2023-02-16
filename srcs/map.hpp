@@ -215,16 +215,12 @@ namespace	ft {
 				}
 			}
 
-			iterator	erase(iterator pos) {
+			void	erase(iterator pos) {
 				iterator	it = find(pos->second);
-				iterator	next = NULL;
-				if (it)
-					next = it + 1;
 				_t.erase(*pos);
-				return (next);
 			}
 
-			iterator	erase(iterator first, iterator last) {
+			void	erase(iterator first, iterator last) {
 				while (first != last) {
 					_t.erase(*first);
 					first++;
