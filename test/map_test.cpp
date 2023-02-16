@@ -2,7 +2,8 @@
 
 int	main() {
 
-	LIB::map<char, float>	m;
+	LIB::map<char, double>	m;
+	m.insert(LIB::pair<char, double>('a', 1.0));
 
 	return (0);
 
