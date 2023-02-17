@@ -126,6 +126,17 @@ int	main() {
 		std::cout << m.count('f') << std::endl;
 	}
 
+	{
+		LIB::map<char, double>	m;
+		m.insert(LIB::pair<char, double>('a', 1.0));
+		m.insert(LIB::pair<char, double>('b', 2.0));
+		m.insert(LIB::pair<char, double>('c', 3.0));
+		LIB::map<char, double>::iterator	i1 = m.find('a');
+		// LIB::map<char, double>::iterator	i2 = m.find('d');
+		std::cout << "i1: " << i1->first << " // " << i1->second << std::endl;
+		// std::cout << "i2: " << i2->first << " // " << i2->second << std::endl;
+	}
+
 	return (0);
 
 }
