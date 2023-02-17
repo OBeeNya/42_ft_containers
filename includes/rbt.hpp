@@ -178,7 +178,7 @@ namespace	ft {
 
 			/*** Lookup ***/
 
-			pointer	find(const value_type &val) {
+			pointer	find(const value_type &val) const {
 				return (_find(val, _root));
 			}
 

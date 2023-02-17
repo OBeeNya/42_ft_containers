@@ -239,7 +239,7 @@ namespace	ft {
 			/*** Lookup ***/
 
 			size_type	count(const key_type &key) const {
-				return (_t.find(key));
+				return (!(_t.find(value_type(key, mapped_type())) == NULL));
 			}
 
 			iterator	find(const key_type &key) {

@@ -113,6 +113,19 @@ int	main() {
 		printMap(m2);
 	}
 
+	std::cout << "Lookup" << std::endl;
+
+	{
+		LIB::map<char, double>	m;
+		m.insert(LIB::pair<char, double>('a', 1.0));
+		m.insert(LIB::pair<char, double>('b', 2.0));
+		m.insert(LIB::pair<char, double>('c', 3.0));
+		m.insert(LIB::pair<char, double>('d', 4.0));
+		m.insert(LIB::pair<char, double>('e', 5.0));
+		std::cout << m.count('a') << std::endl;
+		std::cout << m.count('f') << std::endl;
+	}
+
 	return (0);
 
 }
