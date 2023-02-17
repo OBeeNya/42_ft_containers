@@ -82,8 +82,8 @@ int	main() {
 		LIB::vector<int>	v;
 		v.assign(5, 5);
 		printVector(v);
-		typename LIB::vector<int>::reverse_iterator	first = v.rbegin();
-		typename LIB::vector<int>::reverse_iterator	last = v.rend();
+		LIB::vector<int>::reverse_iterator	first = v.rbegin();
+		LIB::vector<int>::reverse_iterator	last = v.rend();
 		std::cout << "Vector size: " << v.size() << std::endl;
 		std::cout << "Vector max_size: " << v.max_size() << std::endl;
 		std::cout << "Vector capacity: " << v.capacity() << std::endl;

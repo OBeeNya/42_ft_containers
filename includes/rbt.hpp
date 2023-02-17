@@ -158,6 +158,24 @@ namespace	ft {
 				return (true);
 			}
 
+			void	swap(rbt &other) {
+				pointer	root = other._root;
+				pointer	end = other._end;
+				value_compare	cmp = other._cmp;
+				allocator_type	a = other._a;
+				size_type	size = other._size;
+				other._root = _root;
+				other._end = _end;
+				other._cmp = _cmp;
+				other._a = _a;
+				other._size = _size;
+				_root = root;
+				_end = end;
+				_cmp = cmp;
+				_a = a;
+				_size = size;
+			}
+
 			/*** Lookup ***/
 
 			pointer	find(const value_type &val) {

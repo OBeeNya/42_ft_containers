@@ -108,9 +108,9 @@ int	main() {
 		m2.insert(LIB::pair<char, double>('c', 3.0));
 		m2.insert(LIB::pair<char, double>('d', 4.0));
 		m2.insert(LIB::pair<char, double>('e', 5.0));
-		// m.swap(m2);
-		// printMap(m);
-		// printMap(m2);
+		m.swap(m2);
+		printMap(m);
+		printMap(m2);
 	}
 
 	return (0);

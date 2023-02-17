@@ -233,7 +233,7 @@ namespace	ft {
 
 
 			void	swap(map &other) {
-				_swap(_t, other._t);
+				_t.swap(other._t);
 			}
 
 			/*** Lookup ***/
@@ -291,15 +291,6 @@ namespace	ft {
 			value_compare	_comp;
 			allocator_type	_a;
 			rbt				_t;
-
-			/*** MEMBER FUNCTIONS ***/
-
-			template<class tree>
-			void	_swap(tree &first, tree &second) {
-				tree	tmp = second;
-				second = first;
-				first = tmp;
-			}
 
 	};
 
