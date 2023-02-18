@@ -14,7 +14,7 @@ namespace	ft {
 
 			/*** MEMBER TYPES ***/
 
-			typedef typename ft::iterator< std::bidirectional_iterator_tag, T >	iterator;
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>	iterator;
 			typedef typename iterator::value_type								value_type;
 			typedef typename iterator::difference_type							difference_type;
 			typedef typename iterator::pointer									pointer;
@@ -27,12 +27,12 @@ namespace	ft {
 			/*** MEMBER FUNCTIONS ***/
 
 			map_iterator():
-				_current(NULL),
-				_root(NULL),
-				_end(NULL) {}
+				_current(),
+				_root(),
+				_end() {}
 
 			map_iterator(const node_pointer &current, const node_pointer &root, const node_pointer &end):
-				_current(current),
+				_current((!current) ? _end : current),
 				_root(root),
 				_end(end) {}
 
@@ -43,8 +43,8 @@ namespace	ft {
 			
 			~map_iterator() {}
 
-			operator	map_iterator< const T, node > () {
-				return (map_iterator< const T, node >(_current, _root, _end));
+			operator	map_iterator<const T, node> () {
+				return (map_iterator<const T, node>(_current, _root, _end));
 			}
 
 			map_iterator	&operator=(const map_iterator &rhs) {

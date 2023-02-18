@@ -395,6 +395,10 @@ namespace	ft {
 
 			pointer	_find(const value_type &val, const pointer current) const {
 				if (current == _end)
+				// {
+				// 	pointer	p = _a.allocate(1);
+				// 	return ((const pointer)p);
+				// }
 					return (NULL);
 				else if (_cmp(current->value, val))
 					return (_find(val, current->right));
