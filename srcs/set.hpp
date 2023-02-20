@@ -58,7 +58,7 @@ namespace	ft {
 			set(const set &other):
 				_comp(other._comp),
 				_a(other._a),
-				_t(other._t) {
+				_t(_comp) {
 				*this = other;
 			}
 
@@ -69,7 +69,7 @@ namespace	ft {
 					_comp = other._comp;
 					_a = other._a;
 					_t.clear();
-					_t.insert(other.begin(), other.end());
+					insert(other.begin(), other.end());
 				}
 				return (*this);
 			}
@@ -177,7 +177,7 @@ namespace	ft {
 			/*** Lookup ***/
 
 			size_type	count(const key_type &key) const {
-				return (_t.find(key));
+				return (!!(_t.find(key)));
 			}
 
 			iterator	find(const key_type &key) {

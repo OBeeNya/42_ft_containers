@@ -32,7 +32,7 @@ namespace	ft {
 				_end() {}
 
 			map_iterator(const node_pointer &current, const node_pointer &root, const node_pointer &end):
-				_current((!current) ? _end : current),
+				_current((!current) ? end : current),
 				_root(root),
 				_end(end) {}
 

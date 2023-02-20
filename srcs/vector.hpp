@@ -312,14 +312,14 @@ namespace ft {
 
 			template <class InputIt>
 			void	insert(const_iterator pos, InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, InputIt>::type* = NULL) {
-				size_type	first_last = static_cast<size_type>(last - first);
+				size_type	first_last = static_cast<size_type>(std::distance(first, last));
 				difference_type	begin_pos = pos - begin();
 				difference_type	pos_end = end() - pos;
 				difference_type	begin_end = _count;
 				if (!first_last)
 					return ;
-				if (first_last <= _capacity);
-				else if (first_last > _capacity * VECTOR_CAPACITY_ADJUSTMENT)
+				if (first_last + _count <= _capacity);
+				else if (first_last + _count > _capacity * VECTOR_CAPACITY_ADJUSTMENT)
 					reserve(first_last + _count);
 				else
 					reserve(_count * VECTOR_CAPACITY_ADJUSTMENT);

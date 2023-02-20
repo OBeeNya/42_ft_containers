@@ -123,22 +123,22 @@ namespace	ft {
 			bool	erase(const value_type &val) {
 				pointer	to_del, to_switch, to_fix;
 				to_del = _find(val, _root);
-				if (to_del == NULL)
+				if (!to_del)
 					return (false);
 				to_switch = to_del;
 				int	switch_col = to_switch->color;
-				if (to_del->left == _end) {
+				if (!(to_del->left)) {
 					to_fix = to_del->right;
 					_transplant(to_del, to_del->right);
 				}
-				else if (to_del->right == _end) {
+				else if (!(to_del->right)) {
 					to_fix = to_del->left;
 					_transplant(to_del, to_del->left);
 				}
 				else {
 					to_switch = _min(to_del->right);
 					switch_col = to_switch->color;
-					to_fix = to_del->right;
+					to_fix = to_switch->right;
 					if (to_switch->parent == to_del)
 						to_fix->parent = to_switch;
 					else {
@@ -200,7 +200,7 @@ namespace	ft {
 				pointer	tmp = _root;
 				pointer	save = _end;
 				while (tmp != _end) {
-					if (_cmp(tmp->value, val)) {
+					if (_cmp(val, tmp->value)) {
 						save = tmp;
 						tmp = tmp->left;
 					}
@@ -293,10 +293,10 @@ namespace	ft {
 			void	_right_rotate(pointer p) {
 				pointer	l = p->left;
 				p->left = l->right;
-				if (l->right != _end)
+				if (l->right)
 					l->right->parent = p;
 				l->parent = p->parent;
-				if (p->parent == _end)
+				if (!(p->parent))
 					_root = l;
 				else if (p == p->parent->right)
 					p->parent->right = l;
@@ -309,10 +309,10 @@ namespace	ft {
 			void	_left_rotate(pointer p) {
 				pointer	r = p->right;
 				p->right = r->left;
-				if (r->left != _end)
+				if (r->left)
 					r->left->parent = p;
 				r->parent = p->parent;
-				if (p->parent == _end)
+				if (!(p->parent))
 					_root = r;
 				else if (p == p->parent->left)
 					p->parent->left = r;
@@ -323,7 +323,7 @@ namespace	ft {
 			}
 
 			void	_transplant(pointer x, pointer y) {
-				if (x->parent == _end)
+				if (!(x->parent))
 					_root = y;
 				else if (x == x->parent->left)
 					x->parent->left = y;
@@ -334,7 +334,7 @@ namespace	ft {
 
 			void	_erase_fix(pointer to_fix) {
 				pointer	save;
-				while (to_fix != _root && to_fix-> color == BLACK) {
+				while (to_fix && to_fix->color == BLACK) {
 					if (to_fix == to_fix->parent->left) {
 						save = to_fix->parent->right;
 						if (save->color == RED) {
@@ -344,7 +344,7 @@ namespace	ft {
 							save = to_fix->parent->right;
 						}
 						if (save->left->color == BLACK && save->right->color == BLACK) {
-							save->color = BLACK;
+							save->color = RED;
 							to_fix = to_fix->parent;
 						}
 						else {
@@ -395,10 +395,6 @@ namespace	ft {
 
 			pointer	_find(const value_type &val, const pointer current) const {
 				if (current == _end)
-				// {
-				// 	pointer	p = _a.allocate(1);
-				// 	return ((const pointer)p);
-				// }
 					return (NULL);
 				else if (_cmp(current->value, val))
 					return (_find(val, current->right));

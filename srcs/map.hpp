@@ -51,7 +51,7 @@ namespace	ft {
 
 						/*** MEMBER FUNCTIONS ***/
 
-						bool	operator()(const first_argument_type &lhs, const second_argument_type &rhs) const {
+						result_type	operator()(const first_argument_type &lhs, const second_argument_type &rhs) const {
 							return (comp(lhs.first, rhs.first));
 						}
 
@@ -216,7 +216,6 @@ namespace	ft {
 			}
 
 			void	erase(iterator pos) {
-				iterator	it = find(pos->second);
 				_t.erase(*pos);
 			}
 
@@ -239,7 +238,7 @@ namespace	ft {
 			/*** Lookup ***/
 
 			size_type	count(const key_type &key) const {
-				return (!(_t.find(value_type(key, mapped_type())) == NULL));
+				return (!!(_t.find(value_type(key, mapped_type()))));
 			}
 
 			iterator	find(const key_type &key) {
