@@ -142,7 +142,11 @@ namespace	ft {
 					if (to_switch->parent == to_del)
 						to_fix->parent = to_switch;
 					else {
-						_transplant(to_switch, to_switch->right);
+
+						if (to_switch)
+							_transplant(to_switch, to_switch->right);
+						else
+							return (false);
 						to_switch->right = to_del->right;
 						to_switch->right->parent = to_switch;
 					}
@@ -237,7 +241,7 @@ namespace	ft {
 			/*** Modifiers ***/
 
 			void	_clear(pointer p) {
-				if (p == _end)
+				if (!p || p == _end)
 					return ;
 				_clear(p->left);
 				_clear(p->right);
@@ -329,11 +333,15 @@ namespace	ft {
 					x->parent->left = y;
 				else
 					x->parent->right = y;
-				y->parent = x->parent;
+
+				if (y)
+					y->parent = x->parent;
 			}
 
 			void	_erase_fix(pointer to_fix) {
 				pointer	save;
+				if (!to_fix)
+					return ;
 				while (to_fix && to_fix->color == BLACK) {
 					if (to_fix == to_fix->parent->left) {
 						save = to_fix->parent->right;
@@ -394,14 +402,13 @@ namespace	ft {
 			/*** Lookup ***/
 
 			pointer	_find(const value_type &val, const pointer current) const {
-				if (current == _end)
+				if (!current)
 					return (NULL);
-				else if (_cmp(current->value, val))
+				if (_cmp(current->value, val))
 					return (_find(val, current->right));
-				else if (_cmp(val, current->value))
+				if (_cmp(val, current->value))
 					return (_find(val, current->left));
-				else
-					return (current);
+				return (current);
 			}
 
 	};

@@ -430,7 +430,7 @@ namespace ft {
 	bool	operator==(const ft::vector<T, Alloc> &lhs, const ft::vector<T, Alloc> &rhs) {
 		if (lhs.size() != rhs.size())
 			return (false);
-		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 	}
 
 	template< class T, class Alloc >

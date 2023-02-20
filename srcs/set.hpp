@@ -101,11 +101,11 @@ namespace	ft {
 			}
 
 			reverse_iterator	rend() {
-				return (reverse_iterator(rbegin()));
+				return (reverse_iterator(begin()));
 			}
 
 			const_reverse_iterator	rend() const {
-				return (const_reverse_iterator(rbegin()));
+				return (const_reverse_iterator(begin()));
 			}
 
 			/*** Capacity ***/
@@ -149,16 +149,11 @@ namespace	ft {
 				}
 			}
 
-			iterator	erase(iterator pos) {
-				iterator	it = find(pos->second);
-				iterator	next = NULL;
-				if (it)
-					next = it + 1;
+			void	erase(iterator pos) {
 				_t.erase(*pos);
-				return (next);
 			}
 
-			iterator	erase(iterator first, iterator last) {
+			void	erase(iterator first, iterator last) {
 				while (first != last) {
 					_t.erase(*first);
 					first++;

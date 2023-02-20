@@ -230,7 +230,6 @@ namespace	ft {
 				return (_t.erase(value_type(key, mapped_type())));
 			}
 
-
 			void	swap(map &other) {
 				_t.swap(other._t);
 			}
