@@ -6,33 +6,31 @@
 
 namespace	ft {
 
-	template< class T, class node >
-	class	map_iterator:
-		public ft::iterator< std::bidirectional_iterator_tag, T > {
+	template <typename T, typename node>
+	class	map_iterator {
 
 		public:
 
 			/*** MEMBER TYPES ***/
 
-			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>	iterator;
-			typedef typename iterator::value_type								value_type;
-			typedef typename iterator::difference_type							difference_type;
-			typedef typename iterator::pointer									pointer;
-			typedef typename iterator::reference								reference;
-			typedef typename iterator::iterator_category						iterator_category;
-			typedef node														node_type;
-			typedef node*														node_pointer;
-			typedef node&														node_reference;
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>::iterator_category	iterator_category;
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>::value_type			value_type;
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>::difference_type		difference_type;
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>::pointer				pointer;
+			typedef typename ft::iterator<std::bidirectional_iterator_tag, T>::reference			reference;
+			typedef	node																			node_type;
+			typedef node*																			node_ptr;
+			typedef node&																			node_ref;
 
 			/*** MEMBER FUNCTIONS ***/
 
 			map_iterator():
-				_current(),
-				_root(),
-				_end() {}
+				_current(NULL),
+				_root(NULL),
+				_end(NULL) {}
 
-			map_iterator(const node_pointer &current, const node_pointer &root, const node_pointer &end):
-				_current((!current) ? end : current),
+			map_iterator(const node_ptr &current, const node_ptr &root, const node_ptr &end):
+				_current(current),
 				_root(root),
 				_end(end) {}
 
@@ -40,62 +38,47 @@ namespace	ft {
 				_current(src._current),
 				_root(src._root),
 				_end(src._end) {}
-			
+
 			~map_iterator() {}
 
-			operator	map_iterator<const T, node> () {
-				return (map_iterator<const T, node>(_current, _root, _end));
-			}
-
-			map_iterator	&operator=(const map_iterator &rhs) {
-				if (this != &rhs) {
-					_current = rhs._current;
-					_root = rhs._root;
-					_end = rhs._end;
-				}
+			map_iterator	&operator=(const map_iterator &rhs)
+			{
+				if (this == &rhs)
+					return (*this);
+				_current = rhs._current;
+				_root = rhs._root;
+				_end = rhs._end;
 				return (*this);
 			}
 
 			map_iterator	&operator++() {
-				if (_current == _end)
-					_current = _min(_root);
-				else
-					_current = _next();
+				_increment();
 				return (*this);
 			}
 
 			map_iterator	operator++(int) {
-				map_iterator	tmp = *this;
-				if (_current == _end)
-					_current = _min(_root);
-				else
-					_current = _next();
+				map_iterator	tmp(*this);
+				_increment();
 				return (tmp);
 			}
 
 			map_iterator	&operator--() {
-				if (_current == _end)
-					_current = _max(_root);
-				else
-					_current = _previous();
+				_decrement();
 				return (*this);
 			}
 
 			map_iterator	operator--(int) {
-				map_iterator	tmp = *this;
-				if (_current == _end)
-					_current = _max(_root);
-				else
-					_current = _previous();
+				map_iterator	tmp(*this);
+				_decrement();
 				return (tmp);
 			}
 
-			bool	operator==(const map_iterator &rhs) const {
+			bool	operator==(const map_iterator & rhs) const {
 				return (_current == rhs._current);
 			}
 
-			bool	operator!=(const map_iterator &rhs) const {
-				return (!(_current == rhs._current));
+			bool	operator!=(const map_iterator & rhs) const {
+				return (_current != rhs._current);
 			}
 
 			reference	operator*() const {
@@ -106,52 +89,73 @@ namespace	ft {
 				return (&(_current->value));
 			}
 
+			operator map_iterator<const T, node>() const {
+				return (map_iterator<const T, node>(_current, _root, _end));
+			}
+
 		private:
 
 			/*** MEMBER OBJECTS ***/
 
-			node_pointer	_current;
-			node_pointer	_root;
-			node_pointer	_end;
+			node_ptr	_current;
+			node_ptr	_root;
+			node_ptr	_end;
 
 			/*** MEMBER FUNCTIONS ***/
 
-			node_pointer	_next() {
-				if (_current->right != _end)
-					return (_min(_current->right));
-				node_pointer	next = _current->parent;
-				while (next != _end && _current == next->right) {
-					_current = next;
-					next = next->parent;
+			void	_increment() {
+				if (_current == _end) {
+					_current = _max(_root);
+					return ;
 				}
-				return (next);
-			}
-
-			node_pointer	_previous() {
-				if (_current->left != _end)
-					return (_max(_current->left));
-				node_pointer	previous = _current->parent;
-				while (previous != _end && _current == previous->left) {
-					_current = previous;
-					previous = previous->parent;
+				node_ptr	tmp_current = _current;
+				if (tmp_current->right != _end)
+					_current = _min(tmp_current->right);
+				else {
+					node_ptr	tmp_parent = tmp_current->parent;
+					while (tmp_parent && tmp_current == tmp_parent->right) {
+						tmp_current = tmp_parent;
+						tmp_parent = tmp_current->parent;
+					}
+					if (!tmp_parent)
+						_current = _end;
+					else
+						_current = tmp_parent;
 				}
-				return (previous);
 			}
 
-			node_pointer	_max(node_pointer p) const {
-				if (!p || p == _end)
-					return (_end);
-				while (p->right != _end)
-					p = p->right;
-				return (p);
+			void	_decrement() {
+				if (_current == _end) {
+					_current = _max(_root);
+					return ;
+				}
+				if (_current->left != _end) {
+					_current = _max(_current->left);
+				}
+				else {
+					node_ptr	tmp_parent = _current->parent;
+					while (tmp_parent && tmp_parent != _end && _current == tmp_parent->left) {
+						_current = tmp_parent;
+						tmp_parent = tmp_parent->parent;
+					}
+					_current = tmp_parent;
+				}
 			}
 
-			node_pointer	_min(node_pointer p) const {
-				if (!p || p == _end)
+			node_ptr	_max(node_ptr x) {
+				if (!x || x == _end)
 					return (_end);
-				while (p->left != _end)
-					p = p->left;
-				return (p);
+				while (x->right != _end && x->right)
+					x = x->right;
+				return (x);
+			}
+
+			node_ptr	_min(node_ptr x) {
+				if (!x || x == _end)
+					return(_end);
+				while (x->left != _end && x->left)
+					x = x->left;
+				return (x);
 			}
 
 	};

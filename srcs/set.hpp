@@ -40,36 +40,45 @@ namespace	ft {
 			set():
 				_comp(),
 				_a(),
-				_t(value_compare()) {}
+				_t(value_compare()),
+				_size(0) {}
 
 			explicit set(const key_compare &comp, const allocator_type &alloc = Allocator()):
 				_comp(comp),
 				_a(alloc),
-				_t(_comp) {}
+				_t(_comp),
+				_size(0) {}
 
 			template<class InputIt>
 			set(InputIt first, InputIt last, const key_compare &comp = Compare(), const allocator_type &alloc = Allocator()):
 				_comp(comp),
 				_a(alloc),
-				_t(_comp) {
+				_t(_comp),
+				_size(0) {
 				insert(first, last);
 			}
 
 			set(const set &other):
 				_comp(other._comp),
 				_a(other._a),
-				_t(_comp) {
+				_t(_comp),
+				_size(other._size) {
 				*this = other;
 			}
 
-			~set() {}
+			~set() {
+				if (_size)
+					_t.delete_tree(_t.getRoot());
+				_t.delete_null();
+			}
 
 			set	&operator=(const set &other) {
 				if (this != &other) {
 					_comp = other._comp;
 					_a = other._a;
-					_t.clear();
+					_t.delete_tree(_t.getRoot());
 					insert(other.begin(), other.end());
+					_size = other._size;
 				}
 				return (*this);
 			}
@@ -77,19 +86,19 @@ namespace	ft {
 			/*** Iterators ***/
 
 			iterator	begin() {
-				return (iterator(_t.begin(), _t.root(), _t.end()));
+				return (iterator(_t.begin(), _t.getRoot(), _t.getNull()));
 			}
 
 			const_iterator	begin() const {
-				return (const_iterator(_t.begin(), _t.root(), _t.end()));
+				return (const_iterator(_t.begin(), _t.getRoot(), _t.getNull()));
 			}
 
 			iterator	end() {
-				return (iterator(_t.end(), _t.root(), _t.end()));
+				return (iterator(_t.getNull(), _t.getRoot(), _t.getNull()));
 			}
 
 			const_iterator	end() const {
-				return (const_iterator(_t.end(), _t.root(), _t.end()));
+				return (const_iterator(_t.getNull(), _t.getRoot(), _t.getNull()));
 			}
 
 			reverse_iterator	rbegin() {
@@ -111,11 +120,11 @@ namespace	ft {
 			/*** Capacity ***/
 
 			bool	empty() const {
-				return (_t.empty());
+				return (_t.getRoot() == _t.getNull());
 			}
 
 			size_type	size() const {
-				return (_t.size());
+				return (_size);
 			}
 
 			size_type	max_size() const {
@@ -125,62 +134,84 @@ namespace	ft {
 			/*** Modifiers ***/
 
 			void	clear() {
-				_t.clear();
+				if (_size) {
+					_t.clear();
+					_size = 0;
+				}
 			}
 
 			ft::pair<iterator, bool>	insert(const value_type &value) {
-				bool	b = false;
-				if (_t.insert(value))
-					b = true;
-				return (ft::make_pair(iterator(_t.find(value), _t.root(), _t.end()), b));
+				if (!(_t.insert(value))) {
+					return (ft::make_pair(iterator(_t.find(_t.getRoot(), value), _t.getRoot(), _t.getNull()), false));
+				}
+				_size++;
+				return (ft::make_pair(iterator(_t.find(_t.getRoot(), value), _t.getRoot(), _t.getNull()), true));
 			}
 
 			iterator	insert(iterator pos, const value_type &value) {
 				(void) pos;
-				_t.insert(value);
-				return (iterator(_t.find(value), _t.root(), _t.end()));
+				insert(value);
+				return (iterator(_t.find(_t.getRoot(), value), _t.getRoot(), _t.getNull()));
 			}
 
 			template<class InputIt>
 			void	insert(InputIt first, InputIt last) {
 				while (first != last) {
-					_t.insert(*first);
+					insert(*first);
 					first++;
 				}
 			}
 
 			void	erase(iterator pos) {
-				_t.erase(*pos);
+				if (!_size)
+					return ;
+				if ( _t.deleteNode(*pos))
+					_size--;
 			}
 
 			void	erase(iterator first, iterator last) {
+				iterator	tmp = first;
 				while (first != last) {
-					_t.erase(*first);
+					tmp = first;
 					first++;
+					erase(tmp);
 				}
 			}
 
 			size_type	erase(const key_type &key) {
-				return (_t.erase(key));
+				if (!_size)
+					return (0);
+				iterator	it = find(key);
+				if (it == end())
+					return (0);
+				erase(it);
+				return (1);
 			}
 
 			void	swap(set &other) {
-				_t.swap(other._t);
+				size_t	tmp = other._size;
+				other._size = _size;
+				_size = tmp;
+				_swap(_t, other._t);
 			}
 
 			/*** Lookup ***/
 
 			size_type	count(const key_type &key) const {
-				return (!!(_t.find(key)));
+				if (find(key) == end())
+					return (0);
+				return (1);
 			}
 
 			iterator	find(const key_type &key) {
-				return (iterator(_t.find(key), _t.root(), _t.end()));
+				return (iterator(_t.find(_t.getRoot(), key), _t.getRoot(), _t.getNull()));
 			}
 
 			const_iterator	find(const key_type &key) const {
-				return (const_iterator(_t.find(key), _t.root(), _t.end()));
+				return (iterator(_t.find(_t.getRoot(), key), _t.getRoot(), _t.getNull()));
 			}
+
+			/*** Observers ***/
 
 			ft::pair<iterator, iterator>	equal_range(const key_type &key) {
 				return (ft::make_pair(lower_bound(key), upper_bound(key)));
@@ -191,22 +222,20 @@ namespace	ft {
 			}
 
 			iterator	lower_bound(const key_type &key) {
-				return (iterator(_t.lower_bound(key), _t.root(), _t.end()));
+				return (iterator(_t.lower_bound(key), _t.getRoot(), _t.getNull()));
 			}
 
 			const_iterator	lower_bound(const key_type &key) const {
-				return (const_iterator(_t.lower_bound(key), _t.root(), _t.end()));
+				return (const_iterator(_t.lower_bound(key), _t.getRoot(), _t.getNull()));
 			}
 
 			iterator	upper_bound(const key_type &key) {
-				return (iterator(_t.upper_bound(key), _t.root(), _t.end()));
+				return (iterator(_t.upper_bound(key), _t.getRoot(), _t.getNull()));
 			}
 
 			const_iterator	upper_bound(const key_type &key) const {
-				return (const_iterator(_t.upper_bound(key), _t.root(), _t.end()));
+				return (const_iterator(_t.upper_bound(key), _t.getRoot(), _t.getNull()));
 			}
-
-			/*** Observers ***/
 
 			key_compare	key_comp() const {
 				return (key_compare());
@@ -223,6 +252,18 @@ namespace	ft {
 			value_compare	_comp;
 			allocator_type	_a;
 			rbt				_t;
+			size_type		_size;
+
+			/*** MEMBER FUNCTIONS ***/
+
+			/*** Modifiers ***/
+
+			template <class tree>
+			void	_swap(tree &t1, tree &t2) {
+				tree	tmp = t2;
+				t2 = t1;
+				t1 = tmp;
+			}
 
 	};
 
