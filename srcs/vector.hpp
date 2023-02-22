@@ -82,7 +82,7 @@ namespace ft {
 			vector(const vector &other):
 				_alloc(other._alloc),
 				_count(other._count),
-				_capacity(other._capacity),
+				_capacity(other._count),
 				_first(NULL),
 				_last(NULL) {
 					_first = _alloc.allocate(_capacity);
