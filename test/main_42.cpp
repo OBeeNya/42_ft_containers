@@ -8,6 +8,7 @@
 // 	namespace ft = std;
 // #else
 	#include "srcs/map.hpp"
+	#include "srcs/set.hpp"
 	#include "srcs/stack.hpp"
 	#include "srcs/vector.hpp"
 // #endif

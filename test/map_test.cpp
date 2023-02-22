@@ -44,15 +44,12 @@ int	main() {
 		m.insert(LIB::pair<char, double>('c', 3.0));
 		m.insert(LIB::pair<char, double>('d', 4.0));
 		m.insert(LIB::pair<char, double>('e', 5.0));
-		std::cout << m.at('a') << std::endl;
-		std::cout << m.at('c') << std::endl;
-		std::cout << m.at('e') << std::endl;
-		// try {
-		// 	std::cout << m.at('f') << std::endl;
-		// }
-		// catch (std::exception &e) {
-		// 	std::cout << e.what() << std::endl;
-		// }
+		std::cout << m[0] << std::endl;
+		std::cout << m[1] << std::endl;
+		std::cout << m[2] << std::endl;
+		std::cout << m[3] << std::endl;
+		std::cout << m[4] << std::endl;
+		std::cout << m[5] << std::endl;
 	}
 
 	std::cout << "Iterators" << std::endl;
@@ -133,8 +130,38 @@ int	main() {
 		m.insert(LIB::pair<char, double>('c', 3.0));
 		LIB::map<char, double>::iterator	i1 = m.find('a');
 		std::cout << "i1: " << i1->first << " // " << i1->second << std::endl;
-		LIB::map<char, double>::iterator	i2 = m.find('d');
-		std::cout << "i2: " << i2->first << " // " << i2->second << std::endl;
+	}
+
+	std::cout << "Non-member functions" << std::endl;
+
+	{
+		LIB::map<char, double>	m;
+		m.insert(LIB::pair<char, double>('a', 1.0));
+		m.insert(LIB::pair<char, double>('b', 2.0));
+		m.insert(LIB::pair<char, double>('c', 3.0));
+		LIB::map<char, double>	m2;
+		m2.insert(LIB::pair<char, double>('a', 1.0));
+		m2.insert(LIB::pair<char, double>('b', 2.0));
+		m2.insert(LIB::pair<char, double>('c', 3.0));
+		if (m == m2)
+			std::cout << "maps are identical" << std::endl;
+		else if (m != m2)
+			std::cout << "maps are not identical" << std::endl;
+	}
+
+	{
+		LIB::map<char, double>	m;
+		m.insert(LIB::pair<char, double>('a', 1.0));
+		m.insert(LIB::pair<char, double>('b', 2.0));
+		m.insert(LIB::pair<char, double>('c', 3.0));
+		LIB::map<char, double>	m2;
+		m2.insert(LIB::pair<char, double>('d', 4.0));
+		m2.insert(LIB::pair<char, double>('e', 5.0));
+		m2.insert(LIB::pair<char, double>('f', 6.0));
+		if (m < m2)
+			std::cout << "m less than m2" << std::endl;
+		else if (m > m2)
+			std::cout << "m2 less than m" << std::endl;
 	}
 
 	return (0);

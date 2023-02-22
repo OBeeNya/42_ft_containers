@@ -6,19 +6,33 @@ for cont in ${CONT[@]}; do
 
 	c++ -Wall -Werror -Wextra -std=c++98 -fsanitize=address -g3 "$cont"_test.cpp -DLIB=ft -o $NAME
 
-	./$NAME > "$cont"_ft.txt
+	start1=$(date +%s.%N)
+
+	./$NAME > logs/"$cont"_ft.txt
+
+	end1=$(date +%s.%N)
+	time1=$(echo "scale=9; $end1 - $start1" | bc)
 
 	c++ -Wall -Werror -Wextra -std=c++98 -fsanitize=address -g3 "$cont"_test.cpp -DLIB=std -o $NAME
 
-	./$NAME > "$cont"_std.txt
+	start2=$(date +%s.%N)
 
-	diff "$cont"_ft.txt "$cont"_std.txt > "$cont"_diff.txt
+	./$NAME > logs/"$cont"_std.txt
 
-	if [ -s "$cont"_diff.txt ]; then
+	end2=$(date +%s.%N)
+	time2=$(echo "scale=9; $end2 - $start2" | bc)
+	comp=$(echo "scale=2; $time2 / $time1" | bc)
+	echo ft::"$cont" is $comp x slower than std::"$cont"
+
+	diff logs/"$cont"_ft.txt logs/"$cont"_std.txt > logs/"$cont"_diff.txt
+
+	if [ -s logs/"$cont"_diff.txt ]; then
 		echo "differences in" $cont "implementations"
 	else
 		echo $cont "implementation is ok"
 	fi
+
+	echo
 
 done
 
