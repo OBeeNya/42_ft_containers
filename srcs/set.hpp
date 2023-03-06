@@ -24,7 +24,7 @@ namespace	ft {
 			typedef std::ptrdiff_t													difference_type;
 			typedef Compare															key_compare;
 			typedef Compare															value_compare;
-			typedef Allocator														allocator_type;
+			typedef typename Allocator::template rebind< node<value_type> >::other	allocator_type;
 			typedef value_type&														reference;
 			typedef const value_type&												const_reference;
 			typedef typename allocator_type::pointer								pointer;
